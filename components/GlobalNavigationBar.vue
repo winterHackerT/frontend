@@ -9,10 +9,10 @@
 
         <nav>
           <ul>
-            <li v-for="item, index in navItems" :key="index" >
-              <span @click.self="item.subItems ? toggle(index) : $router.push(item.link)">
+            <li v-for="item, index in navItems" :key="index">
+              <span @click="item.subItems ? toggle(index) : $router.push(item.link)">
                 <i class="bi" :class="item.icon"></i>
-                {{ item.title }}
+                <span class="text">{{ item.title }}</span>
 
                 <i v-if="item.subItems && !item.isSubVisible" class="bi bi-caret-down-fill"></i>
                 <i v-if="item.subItems && item.isSubVisible" class="bi bi-caret-up-fill"></i>
@@ -41,7 +41,7 @@
           <NuxtLink to="#" class="btn"><i class="bi bi-arrow-right"></i></NuxtLink>
         </div>
 
-        <span to="#" class="user-btn" @click.self="toggleUser()">
+        <div to="#" class="user-btn" @click.self="toggleUser()">
           <i class="bi bi-person-fill" @click.self="toggleUser()"></i>
 
           <div v-if="isUserVisble" class="sub">
@@ -59,7 +59,7 @@
             <li class="divider"></li>
             <li><NuxtLink to="#">로그인</NuxtLink></li>
           </div>
-        </span>
+        </div>
       </div>
     </div>
   </div>
@@ -78,17 +78,17 @@ export default defineComponent({
         {
           title: '최근 변경',
           link: '#',
-          icon: 'bi-compass',
+          icon: 'bi-compass-fill',
         },
         {
           title: '최근 토론',
           link: '#',
-          icon: 'bi-chat-left-dots',
+          icon: 'bi-chat-left-dots-fill',
         },
         {
           title: '특수 기능',
           link: '#',
-          icon: 'bi-box-seam',
+          icon: 'bi-box-seam-fill',
           subItems: [
             {
               title: '게시판',
@@ -338,7 +338,12 @@ export default defineComponent({
       }
     }
 
+    .left {
+      margin-left: 20px;
+    }
+
     .right {
+      margin-right: 20px;
       .user-btn {
         width: fit-content;
         height: 100%;
@@ -373,4 +378,51 @@ export default defineComponent({
     }
   }
 }
+
+@media screen and (max-width: $max-table-width) {
+    #global-navigation-bar {
+      margin-bottom: 50px;
+
+      .wrap {
+        width: 100%;
+
+        flex-direction: column;
+        align-items: flex-start;
+
+        .left {
+          margin-left: 20px;
+        }
+
+        .right {
+          width: 100%;
+
+          #search-bar {
+            width: 100%;
+
+            #search-input {
+              width: 100%;
+            }
+          }
+
+          .user-btn {
+            position: absolute;
+            top: 0;
+            right: 10px;
+
+            .sub {
+              width: 180px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: $max-mobile-width) {
+    #global-navigation-bar {
+      nav .text {
+        display: none;
+      }
+    }
+  }
 </style>
