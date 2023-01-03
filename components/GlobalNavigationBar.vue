@@ -41,9 +41,25 @@
           <NuxtLink to="#" class="btn"><i class="bi bi-arrow-right"></i></NuxtLink>
         </div>
 
-        <NuxtLink to="#" class="user-btn">
-          <i class="bi bi-person-fill"></i>
-        </NuxtLink>
+        <span to="#" class="user-btn" @click.self="toggleUser()">
+          <i class="bi bi-person-fill" @click.self="toggleUser()"></i>
+
+          <div v-if="isUserVisble" class="sub">
+            <div class="info">
+              <p class="addr"><b>127.0.0.1</b></p>
+              <p>Please login!</p>
+            </div>
+
+            <li class="divider"></li>
+            <li><NuxtLink to="#">설정</NuxtLink></li>
+            <li><NuxtLink to="#">다크 테마로</NuxtLink></li>
+            <li class="divider"></li>
+            <li><NuxtLink to="#">내 문서 기여 목록</NuxtLink></li>
+            <li><NuxtLink to="#">내 토론 기여 목록</NuxtLink></li>
+            <li class="divider"></li>
+            <li><NuxtLink to="#">로그인</NuxtLink></li>
+          </div>
+        </span>
       </div>
     </div>
   </div>
@@ -138,6 +154,7 @@ export default defineComponent({
           isSubVisible: false,
         }
       ],
+      isUserVisble: false,
     }
   },
   methods: {
@@ -145,6 +162,9 @@ export default defineComponent({
       const current = this.navItems[index].isSubVisible;
       this.navItems[index].isSubVisible = !current;
     },
+    toggleUser() {
+      this.isUserVisble = !this.isUserVisble;
+    }
   },
 })
 </script>
@@ -199,19 +219,31 @@ export default defineComponent({
         top: 100%;
 
         margin-top: 1px;
+        margin-right: -10px;
 
         display: flex;
         flex-direction: column;
+
+        cursor: default;
 
         * {
           color: $secondary;
         }
 
+        > * {
+          padding: 10px 25px;
+        }
+
         li {
           height: fit-content;
+          list-style: none;
           margin: 0;
           padding: 10px 25px;
           justify-content: flex-start;
+
+          i {
+            margin-right: 5px;
+          }
         }
 
         li:hover {
@@ -219,9 +251,11 @@ export default defineComponent({
         }
 
         li.divider {
-          border-top: 1px solid $light-light;
-          height: 10px;
+          height: 0;
           padding: 0;
+          margin: 5px 0;
+
+          border-top: 1px solid $light-light;
         }
 
         li.divider:hover {
@@ -306,14 +340,31 @@ export default defineComponent({
 
     .right {
       .user-btn {
-        width: 50px;
+        width: fit-content;
         height: 100%;
 
-        font-size: 20px;
+        margin-left: 10px;
+        padding: 0 15px;
         
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-end;
+
+        cursor: pointer;
+
+        i {
+          font-size: 20px;
+        }
+
+        .sub {
+          .info {
+            text-align: right;
+
+            .addr {
+              font-size: 18px;
+            }
+          }
+        }
       }
 
       .user-btn:hover {
