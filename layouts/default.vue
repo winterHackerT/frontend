@@ -1,6 +1,7 @@
 <template>
   <div>
-    Hello
+    <GlobalNavigationBar />
+    <Nuxt />
   </div>
 </template>
 

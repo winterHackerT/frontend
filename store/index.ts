@@ -24,10 +24,12 @@ export const setState = (name: string, value: string) => {
 
 export const getters = {
   hello: (_state: RootState) => getState('hello'),
+  title: (_state: RootState) => getState('title', 'Hack WIKI'),
 };
 
 export const mutations = mutationTree(state, {
   setHello: (_state, newValue: string) => setState('hello', newValue),
+  setTitle: (_state, newValue: string) => setState('title', newValue),
 });
 
 export const actions = actionTree(
