@@ -2,10 +2,10 @@
   <div id="global-navigation-bar">
     <div class="wrap">
       <div class="left">
-        <span class="logo">
+        <NuxtLink class="logo" to="/">
           <i class="bi bi-1-square"></i>
           {{ $accessor.title }}
-        </span>
+        </NuxtLink>
 
         <nav>
           <ul>
