@@ -1,5 +1,5 @@
 <template>
-  <div id="global-navigation-bar">
+  <header id="global-navigation-bar">
     <div class="wrap">
       <div class="left">
         <NuxtLink class="logo" to="/">
@@ -62,7 +62,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </header>
 </template>
 
 <script lang="ts">
