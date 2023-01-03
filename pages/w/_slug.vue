@@ -51,8 +51,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 #document-view-page {
-  padding: 20px;
-
   #title {
     .top {
       margin-bottom: 10px;
