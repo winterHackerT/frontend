@@ -80,7 +80,7 @@ export default defineComponent({
 
   main {
     width: 100%;
-    max-width: 1200px;
+    max-width: $max-desktop-width;
     min-height: 100%;
 
     margin: 0 auto;
