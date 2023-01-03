@@ -12,6 +12,8 @@
         <ListBox title="최근 게시물" :items="recentPosts" />
       </aside>
     </main>
+
+    <GlobalFooter />
   </div>
 </template>
 
