@@ -1,4 +1,30 @@
+@import "variable.scss";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
 * {
   margin: 0;
   padding: 0;
+}
+
+.btn, input {
+  background-color: white;
+  border: 1px solid $light-light;
+
+  color: $secondary;
+
+  * {
+    color: $secondary;
+  }
+}
+
+.btn:hover, input:hover {
+  background-color: $light-light;
+}
+
+input {
+  font-size: 16px;
+}
+
+input:focus {
+  outline: none;
 }
