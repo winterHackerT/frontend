@@ -19,53 +19,53 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  setup () {
-    return {}
-  },
-  data () {
-    return {
-      recentChanges: [
-        {
-          title: 'test test test test test test1',
-          link: '#',
-          meta: '23:50',
-        },
-        {
-          title: 'test test test test test test1',
-          link: '#',
-          meta: '23:50',
-        },
-        {
-          title: 'test test test test test test1',
-          link: '#',
-          meta: '23:50',
-        },
-        {
-          title: 'test test test test test test1',
-          link: '#',
-          meta: '23:50',
-        },
-      ],
-      recentPosts: [
-        {
-          title: 'test test test test test test test test2',
-          link: '#',
-        },
-        {
-          title: 'test test test test test test test test2',
-          link: '#',
-        },
-        {
-          title: 'test test test test test test test test2',
-          link: '#',
-        },
-        {
-          title: 'test test test test test test test test2',
-          link: '#',
-        },
-      ],
-    }
-  }
+    setup() {
+        return {};
+    },
+    data() {
+        return {
+            recentChanges: [
+                {
+                    title: "test test test test test test1",
+                    link: "#",
+                    meta: "23:50",
+                },
+                {
+                    title: "test test test test test test1",
+                    link: "#",
+                    meta: "23:50",
+                },
+                {
+                    title: "test test test test test test1",
+                    link: "#",
+                    meta: "23:50",
+                },
+                {
+                    title: "test test test test test test1",
+                    link: "#",
+                    meta: "23:50",
+                },
+            ],
+            recentPosts: [
+                {
+                    title: "test test test test test test test test2",
+                    link: "#",
+                },
+                {
+                    title: "test test test test test test test test2",
+                    link: "#",
+                },
+                {
+                    title: "test test test test test test test test2",
+                    link: "#",
+                },
+                {
+                    title: "test test test test test test test test2",
+                    link: "#",
+                },
+            ],
+        };
+    },
 })
 </script>
 
