@@ -1,11 +1,19 @@
 <template>
-  <Tutorial />
+  <div>
+    Hello, world!
+  </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 
-export default Vue.extend({
-  name: 'IndexPage',
+export default defineComponent({
+  setup () {
+    return {}
+  }
 })
 </script>
+
+<style scoped>
+
+</style>
