@@ -11,7 +11,7 @@
     </div>
 
     <p class="info">
-      Hack WIKI | <a href="https://gdsc.community.dev/dong-eui-university/" target="_blank">GDSC-DEU</a> | <a href="https://developers.google.com/" target="_blank">Google Developers</a> | <a href="https://www.deu.ac.kr/www" target="_blank">Dong-Eui University</a> | Programming with Passsion in Winter Project 2023
+      Hack WIKI | <a href="https://gdsc.community.dev/dong-eui-university/" target="_blank">GDSC-DEU</a> | <a href="https://developers.google.com/" target="_blank">Google Developers</a> | <a href="https://www.deu.ac.kr/www" target="_blank">Dong-Eui University</a> | Programming with <i class="bi bi-heart"></i> in Winter Project 2023
     </p>
 
     <p class="info">
