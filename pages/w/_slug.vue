@@ -46,7 +46,7 @@ export default defineComponent({
   },
   head () {
     return {
-      title: `${this.documentTitle} - ${this.$accessor.title}`,
+      title: `${this.$route.params.slug} - ${this.$accessor.title}`,
     }
   }
 })
