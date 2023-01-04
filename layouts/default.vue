@@ -21,53 +21,53 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-    setup() {
-        return {};
-    },
-    data() {
-        return {
-            recentChanges: [
-                {
-                    title: "test test test test test test1",
-                    link: "#",
-                    meta: "23:50",
-                },
-                {
-                    title: "test test test test test test1",
-                    link: "#",
-                    meta: "23:50",
-                },
-                {
-                    title: "test test test test test test1",
-                    link: "#",
-                    meta: "23:50",
-                },
-                {
-                    title: "test test test test test test1",
-                    link: "#",
-                    meta: "23:50",
-                },
-            ],
-            recentPosts: [
-                {
-                    title: "test test test test test test test test2",
-                    link: "#",
-                },
-                {
-                    title: "test test test test test test test test2",
-                    link: "#",
-                },
-                {
-                    title: "test test test test test test test test2",
-                    link: "#",
-                },
-                {
-                    title: "test test test test test test test test2",
-                    link: "#",
-                },
-            ],
-        };
-    },
+  setup() {
+    return {}
+  },
+  data() {
+    return {
+      recentChanges: [
+        {
+          title: 'test test test test test test1',
+          link: '#',
+          meta: '23:50',
+        },
+        {
+          title: 'test test test test test test1',
+          link: '#',
+          meta: '23:50',
+        },
+        {
+          title: 'test test test test test test1',
+          link: '#',
+          meta: '23:50',
+        },
+        {
+          title: 'test test test test test test1',
+          link: '#',
+          meta: '23:50',
+        },
+      ],
+      recentPosts: [
+        {
+          title: 'test test test test test test test test2',
+          link: '#',
+        },
+        {
+          title: 'test test test test test test test test2',
+          link: '#',
+        },
+        {
+          title: 'test test test test test test test test2',
+          link: '#',
+        },
+        {
+          title: 'test test test test test test test test2',
+          link: '#',
+        },
+      ],
+    }
+  },
 })
 </script>
 
@@ -89,15 +89,20 @@ export default defineComponent({
     flex-direction: row;
 
     > * {
-      border: 1px solid $light-light
+      border: 1px solid $light-light;
     }
 
     content {
       width: 100%;
       min-height: 100vh;
       padding: 20px;
-      
+
       background-color: white;
+
+      > div {
+        display: flex;
+        flex-direction: column;
+      }
     }
 
     aside {
@@ -107,7 +112,7 @@ export default defineComponent({
 
       display: flex;
       flex-direction: column;
-      
+
       .list-box {
         margin-top: 20px;
       }

@@ -9,17 +9,29 @@
 
         <nav>
           <ul>
-            <li v-for="item, index in navItems" :key="index">
-              <span @click="item.subItems ? toggle(index) : $router.push(item.link)">
+            <li v-for="(item, index) in navItems" :key="index">
+              <span
+                @click="item.subItems ? toggle(index) : $router.push(item.link)"
+              >
                 <i class="bi" :class="item.icon"></i>
                 <span class="text">{{ item.title }}</span>
 
-                <i v-if="item.subItems && !item.isSubVisible" class="bi bi-caret-down-fill"></i>
-                <i v-if="item.subItems && item.isSubVisible" class="bi bi-caret-up-fill"></i>
+                <i
+                  v-if="item.subItems && !item.isSubVisible"
+                  class="bi bi-caret-down-fill"
+                ></i>
+                <i
+                  v-if="item.subItems && item.isSubVisible"
+                  class="bi bi-caret-up-fill"
+                ></i>
               </span>
 
               <div v-if="item.subItems && item.isSubVisible" class="sub">
-                <li v-for="subItem in item.subItems" :key="subItem.title" :class="{divider: subItem.title == '-'}">
+                <li
+                  v-for="subItem in item.subItems"
+                  :key="subItem.title"
+                  :class="{ divider: subItem.title == '-' }"
+                >
                   <NuxtLink v-if="subItem.title != '-'" :to="subItem.link">
                     <i class="bi" :class="subItem.icon"></i>
                     {{ subItem.title }}
@@ -38,7 +50,9 @@
           <input id="search-input" type="text" placeholder="Search" />
 
           <NuxtLink to="#" class="btn"><i class="bi bi-search"></i></NuxtLink>
-          <NuxtLink to="#" class="btn"><i class="bi bi-arrow-right"></i></NuxtLink>
+          <NuxtLink to="#" class="btn"
+            ><i class="bi bi-arrow-right"></i
+          ></NuxtLink>
         </div>
 
         <div to="#" class="user-btn" @click.self="toggleUser()">
@@ -69,10 +83,10 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  setup () {
+  setup() {
     return {}
   },
-  data () {
+  data() {
     return {
       navItems: [
         {
@@ -149,22 +163,22 @@ export default defineComponent({
               title: '라이선스',
               icon: 'bi-bookmark-fill',
               link: '#',
-            }
+            },
           ],
           isSubVisible: false,
-        }
+        },
       ],
       isUserVisble: false,
     }
   },
   methods: {
     toggle(index: number) {
-      const current = this.navItems[index].isSubVisible;
-      this.navItems[index].isSubVisible = !current;
+      const current = this.navItems[index].isSubVisible
+      this.navItems[index].isSubVisible = !current
     },
     toggleUser() {
-      this.isUserVisble = !this.isUserVisble;
-    }
+      this.isUserVisble = !this.isUserVisble
+    },
   },
 })
 </script>
@@ -350,7 +364,7 @@ export default defineComponent({
 
         margin-left: 10px;
         padding: 0 15px;
-        
+
         display: flex;
         align-items: center;
         justify-content: flex-end;
@@ -380,49 +394,49 @@ export default defineComponent({
 }
 
 @media screen and (max-width: $max-table-width) {
-    #global-navigation-bar {
-      margin-bottom: 50px;
+  #global-navigation-bar {
+    margin-bottom: 50px;
 
-      .wrap {
+    .wrap {
+      width: 100%;
+
+      flex-direction: column;
+      align-items: flex-start;
+
+      .left {
+        margin-left: 20px;
+      }
+
+      .right {
         width: 100%;
 
-        flex-direction: column;
-        align-items: flex-start;
-
-        .left {
-          margin-left: 20px;
-        }
-
-        .right {
+        #search-bar {
           width: 100%;
 
-          #search-bar {
+          #search-input {
             width: 100%;
-
-            #search-input {
-              width: 100%;
-            }
           }
+        }
 
-          .user-btn {
-            position: absolute;
-            top: 0;
-            right: 10px;
+        .user-btn {
+          position: absolute;
+          top: 0;
+          right: 10px;
 
-            .sub {
-              width: 180px;
-            }
+          .sub {
+            width: 180px;
           }
         }
       }
     }
   }
+}
 
-  @media screen and (max-width: $max-mobile-width) {
-    #global-navigation-bar {
-      nav .text {
-        display: none;
-      }
+@media screen and (max-width: $max-mobile-width) {
+  #global-navigation-bar {
+    nav .text {
+      display: none;
     }
   }
+}
 </style>

@@ -3,7 +3,7 @@
     <h2>{{ title }}</h2>
 
     <ul>
-      <li v-for="item, index in items" :key="index">
+      <li v-for="(item, index) in items" :key="index">
         <NuxtLink :to="item.link">{{ item.title }}</NuxtLink>
         <span v-if="item.meta" class="meta">{{ item.meta }}</span>
       </li>
@@ -20,26 +20,26 @@ export default defineComponent({
   props: {
     title: {
       type: String,
-      default: 'Title'
+      default: 'Title',
     },
     items: {
       type: Array as PropType<any>,
-      default: () => ([
+      default: () => [
         {
           title: 'title',
           link: '#',
           meta: 'meta',
-        }
-      ]),
+        },
+      ],
     },
     moreLink: {
       type: String,
-      default: '#'
-    }
+      default: '#',
+    },
   },
-  setup () {
+  setup() {
     return {}
-  }
+  },
 })
 </script>
 

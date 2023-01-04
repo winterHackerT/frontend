@@ -1,26 +1,23 @@
 <template>
   <div id="document-view-page">
-    <document-title
-      :document-title="documentTitle"
-      recent-edit="20XX-XX-XX XX:XX:XX"
-    >
-      <li>
-        <NuxtLink to="#" class="btn star">
-          <i class="bi bi-star"></i> 0
-          <span class="tooltip">Star</span>
-        </NuxtLink>
-      </li>
+    <section id="title">
+      <div class="top">
+        <h1>
+          {{ documentTitle }}
+          <small v-if="pageName != ''"> ({{ pageName }})</small>
+        </h1>
 
-      <li>
-        <NuxtLink :to="`/backlink/${documentTitle}`" class="btn">역링크</NuxtLink>
-      </li>
-      <li><NuxtLink to="#" class="btn">토론</NuxtLink></li>
-      <li><NuxtLink to="#" class="btn">편집</NuxtLink></li>
-      <li><NuxtLink to="#" class="btn">역사</NuxtLink></li>
-      <li><NuxtLink to="#" class="btn">ACL</NuxtLink></li>
-    </document-title>
+        <nav>
+          <ul>
+            <slot></slot>
+          </ul>
+        </nav>
+      </div>
 
-    <index-components />
+      <span v-if="recentEdit != ''" id="last-modified-datetime">
+        최근 수정 시간: {{ recentEdit }}
+      </span>
+    </section>
   </div>
 </template>
 
@@ -28,13 +25,22 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
+  props: {
+    documentTitle: {
+      type: String,
+      default: 'document title',
+    },
+    pageName: {
+      type: String,
+      default: '',
+    },
+    recentEdit: {
+      type: String,
+      default: '',
+    },
+  },
   setup() {
     return {}
-  },
-  data() {
-    return {
-      documentTitle: this.$route.params.slug as any,
-    }
   },
 })
 </script>
@@ -52,6 +58,10 @@ export default defineComponent({
 
       h1 {
         font-size: 35px;
+
+        small {
+          font-weight: normal;
+        }
       }
 
       nav {
