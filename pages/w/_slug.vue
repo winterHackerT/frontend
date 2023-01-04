@@ -26,6 +26,9 @@
         최근 수정 시간: 20XX-XX-XX XX:XX:XX
       </span>
     </section>
+
+    <index-components />
+
   </div>
 </template>
 
