@@ -68,6 +68,7 @@
   
         h1 {
           font-size: 35px;
+          margin: 0 0 2rem;
         }
   
         nav {
