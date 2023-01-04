@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    <document-title />
   </div>
 </template>
 
