@@ -1,15 +1,30 @@
+# https://nuxtjs.org/deployments/koyeb/
 
-FROM node:16
+FROM node:16 as builder
 
-ARG FRONTEND_WORKDIR
-
-WORKDIR ${FRONTEND_WORKDIR}
+WORKDIR /app
 
 COPY . .
 
-RUN yarn
+RUN yarn install \
+  --prefer-offline \
+  --frozen-lockfile \
+  --non-interactive \
+  --production=false
 
-# CMD ["yarn", "dev"]
+RUN yarn build
 
-CMD ["yarn", "generate"]
-CMD ["yarn", "start"]
+RUN rm -rf node_modules && \
+  NODE_ENV=production yarn install \
+  --prefer-offline \
+  --pure-lockfile \
+  --non-interactive \
+  --production=true
+
+FROM node:16
+
+WORKDIR /app
+
+COPY --from=builder /app  .
+
+CMD [ "yarn", "start" ]
