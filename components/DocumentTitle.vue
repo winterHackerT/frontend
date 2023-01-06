@@ -47,6 +47,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 #document-view-page {
+  margin-bottom: 30px;
+
   #title {
     .top {
       margin-bottom: 10px;
@@ -58,6 +60,7 @@ export default defineComponent({
 
       h1 {
         font-size: 35px;
+        overflow-wrap: anywhere;
 
         small {
           font-weight: normal;
@@ -67,6 +70,9 @@ export default defineComponent({
       nav {
         position: relative;
         top: 6px;
+
+        flex-grow: 0;
+        flex-shrink: 0;
 
         ul {
           li {
