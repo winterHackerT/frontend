@@ -130,6 +130,9 @@ export default defineComponent({
         width: 100%;
         margin: 0;
 
+        border-left: none;
+        border-right: none;
+
         .list-box {
           margin: 0;
           border: none;
