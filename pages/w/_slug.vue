@@ -1,9 +1,9 @@
 <template>
   <div id="document-view-page">
     <document-title
-      v-if="!isFetchError"
       :document-title="documentTitle"
       :recent-edit="recentEdit"
+      :page-name="`${documentVersion}`"
     >
       <li>
         <NuxtLink to="#" class="btn star">
@@ -56,6 +56,7 @@ export default defineComponent({
       documentTitle: this.$route.params.slug as any,
       documentHistory: [],
       recentEdit: "",
+      documentVersion: this.$route.query?.rev ? `r${this.$route.query?.rev} 판` : '',
       isNotFound: false,
       isFetchError: false,
     }

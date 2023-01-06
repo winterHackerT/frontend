@@ -65,6 +65,7 @@ export default defineComponent({
       h1 {
         font-size: 35px;
         overflow-wrap: anywhere;
+        text-decoration: none;
 
         small {
           font-weight: normal;
