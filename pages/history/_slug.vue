@@ -14,7 +14,7 @@
       <controller />
         <ul>
             <li v-for="(item, index) in documentItems" :key="index">
-              {{item.editDateTime}}(<NuxtLink to="#">보기</NuxtLink>|<NuxtLink :to="`/raw/${documentTitle}?rev=${item.editVersion}`">RAW</NuxtLink>|<NuxtLink to="#">Blame</NuxtLink>|<NuxtLink to="#">이 리비전으로 되돌리기</NuxtLink>|<NuxtLink to="#">비교</NuxtLink>) <input type="radio"> <input type="radio"/> r{{ item.editVersion }} (+1) <NuxtLink to="">{{ item.editor }}</Nuxtlink> ()
+              {{item.editDateTime}}(<NuxtLink :to="`/w/${documentTitle}?rev=${item.editVersion}`">보기</NuxtLink>|<NuxtLink :to="`/raw/${documentTitle}?rev=${item.editVersion}`">RAW</NuxtLink>|<NuxtLink to="#">Blame</NuxtLink>|<NuxtLink to="#">이 리비전으로 되돌리기</NuxtLink>|<NuxtLink to="#">비교</NuxtLink>) <input type="radio"> <input type="radio"/> r{{ item.editVersion }} (+1) <NuxtLink to="">{{ item.editor }}</Nuxtlink> ()
             </li>
         </ul>
       <controller />
