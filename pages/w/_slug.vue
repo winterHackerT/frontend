@@ -16,7 +16,7 @@
       </li>
       <li><NuxtLink :to="`/discuss/${documentTitle}`" class="btn">토론</NuxtLink></li>
       <li><NuxtLink to="#" class="btn">편집</NuxtLink></li>
-      <li><NuxtLink to="#" class="btn">역사</NuxtLink></li>
+      <li><NuxtLink :to="`/history/${documentTitle}`" class="btn">역사</NuxtLink></li>
       <li><NuxtLink to="#" class="btn">ACL</NuxtLink></li>
     </document-title>
 
