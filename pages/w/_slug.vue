@@ -1,8 +1,9 @@
 <template>
   <div id="document-view-page">
     <document-title
+      v-if="!isFetchError"
       :document-title="documentTitle"
-      recent-edit="20XX-XX-XX XX:XX:XX"
+      :recent-edit="recentEdit"
     >
       <li>
         <NuxtLink to="#" class="btn star">
@@ -20,11 +21,29 @@
       <li><NuxtLink to="#" class="btn">ACL</NuxtLink></li>
     </document-title>
 
+    <div v-if="isFetchError" class="fetch-error-message">
+      <spna>문서를 읽어오는 과정에서 오류가 발생했습니다!</spna>
+    </div>
+
+    <div v-if="isNotFound" class="document-not-found">
+      <span>해당 문서를 찾을 수 없습니다.</span>
+      <br />
+      <br />
+      <NuxtLink to="#">[새 문서 만들기]</NuxtLink>
+
+      <div v-if="documentHistory" class="document-history">
+        <ul>
+          <li></li>
+        </ul>
+      </div>
+    </div>
+
     <index-components />
   </div>
 </template>
 
 <script lang="ts">
+import axios from 'axios';
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -34,12 +53,51 @@ export default defineComponent({
   data() {
     return {
       documentTitle: this.$route.params.slug as any,
+      documentHistory: [],
+      recentEdit: "",
+      isNotFound: false,
+      isFetchError: false,
     }
   },
-})
+  mounted() {
+    this.fetchDocument(this.documentTitle);
+    this.fetchDocumentHistory(this.documentTitle);
+  },
+  methods: {
+    fetchDocument(documentTitle: String) {
+      axios
+        .get(this.$accessor.api + "/docs/" + documentTitle)
+        .then(response => {
+          if (response.data.success) {
+            this.recentEdit = "20XX-XX-XX XX:XX:XX"
+          } else {
+            this.isNotFound = true;
+          }
+        })
+        .catch(error => {
+          this.isFetchError = true;
+          console.error(error);
+        });
+    },
+    fetchDocumentHistory(documentTitle: String) {
+      axios
+        .get(this.$accessor.api + "/docs/history/" + documentTitle)
+        .then(response => {
+          console.log(response.data);
+          this.documentHistory = response.data;
+        })
+        .catch(error => {
+          this.isFetchError = true;
+          console.error(error);
+        });
+    }
+  },
+}) 
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/css/variable.scss';
+
 #document-view-page {
   #title {
     .top {
@@ -119,11 +177,10 @@ export default defineComponent({
         }
       }
     }
+  }
 
-    #last-modified-datetime {
-      font-size: 14px;
-      float: right;
-    }
+  .fetch-error-message {
+    color: $danger;
   }
 }
 </style>

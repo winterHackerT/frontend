@@ -93,11 +93,12 @@ export default defineComponent({
     }
 
     content {
-      width: 100%;
       min-height: 100vh;
       padding: 20px;
 
       background-color: white;
+
+      position: relative;
 
       > div {
         display: flex;
@@ -128,6 +129,9 @@ export default defineComponent({
       aside {
         width: 100%;
         margin: 0;
+
+        border-left: none;
+        border-right: none;
 
         .list-box {
           margin: 0;
