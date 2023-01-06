@@ -2,7 +2,7 @@
   <div class="controller">
     <button class="btn"><i class="bi bi-chevron-left"></i>Prev</button>
     <button class="btn">Next<i class="bi bi-chevron-right"></i></button>
-</div>
+  </div>
 </template>
 
 <script lang="ts">
