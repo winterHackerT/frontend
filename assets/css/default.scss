@@ -6,6 +6,11 @@
   padding: 0;
 }
 
+a {
+  color: $primary;
+  text-decoration: blink;
+}
+
 .btn,
 input,
 select {
