@@ -1,5 +1,5 @@
 <template>
-  <div id="document-view-page">
+  <div id="document-title">
     <section id="title">
       <div class="top">
         <h1>
@@ -15,7 +15,7 @@
       </div>
 
       <span v-if="recentEdit != ''" id="last-modified-datetime">
-        최근 수정 시간: {{ recentEdit }}
+          최근 수정 시간: {{ recentEdit }}
       </span>
     </section>
   </div>
@@ -46,7 +46,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-#document-view-page {
+@import '@/assets/css/variable.scss';
+
+#document-title {
   margin-bottom: 30px;
 
   #title {
@@ -139,6 +141,31 @@ export default defineComponent({
     #last-modified-datetime {
       font-size: 14px;
       float: right;
+    }
+  }
+}
+
+@media screen and (max-width: $max-table-width) {
+  #document-title {
+    #title {
+      padding-top: 30px;
+
+      .top {
+        nav {
+          width: 100%;
+          padding: 7px 0;
+
+          position: absolute;
+          top: 0;
+          right: 0;
+
+          border-bottom: 1px solid $light-light;
+          background-color: white;
+
+          display: flex;
+          justify-content: flex-end;
+        }
+      }
     }
   }
 }
