@@ -38,6 +38,7 @@
       </div>
     </div>
 
+    <classification-block v-if="!isFetchError && !isFetchError && !isNotFound"/>
     <index-components />
   </div>
 </template>

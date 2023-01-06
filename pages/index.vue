@@ -20,6 +20,8 @@
       <li><NuxtLink to="#" class="btn">ACL</NuxtLink></li>
     </document-title>
 
+    <classification-block />
+
   </div>
 </template>
 
