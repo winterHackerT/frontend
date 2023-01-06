@@ -14,7 +14,7 @@
       <li>
         <NuxtLink :to="`/backlink/${documentTitle}`" class="btn">역링크</NuxtLink>
       </li>
-      <li><NuxtLink to="#" class="btn">토론</NuxtLink></li>
+      <li><NuxtLink :to="`/discuss/${documentTitle}`" class="btn">토론</NuxtLink></li>
       <li><NuxtLink to="#" class="btn">편집</NuxtLink></li>
       <li><NuxtLink to="#" class="btn">역사</NuxtLink></li>
       <li><NuxtLink to="#" class="btn">ACL</NuxtLink></li>
