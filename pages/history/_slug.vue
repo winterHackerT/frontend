@@ -10,8 +10,14 @@
           <NuxtLink :to="`/backlink/${documentTitle}`" class="btn">역링크</NuxtLink>
         </li>
       </document-title>
-  
-      <index-components />
+
+      <controller />
+        <ul>
+            <li v-for="(item, index) in documentItems" :key="index">
+              {{item.editDateTime}}(<NuxtLink to="#">보기</NuxtLink>|<NuxtLink to="#">RAW</NuxtLink>|<NuxtLink to="#">Blame</NuxtLink>|<NuxtLink to="#">이 리비전으로 되돌리기</NuxtLink>|<NuxtLink to="#">비교</NuxtLink>) <input type="radio"> <input type="radio"/> r{{ item.editVersion }} (+1) <NuxtLink to="">{{ item.editor }}</Nuxtlink> ()
+            </li>
+        </ul>
+      <controller />
     </div>
   </template>
   
@@ -25,6 +31,19 @@
     data() {
       return {
         documentTitle: this.$route.params.slug as any,
+        documentItems: [{
+          editDateTime: '2021-08-01 00:00:00', 
+          editVersion: 1,
+          editor: 'admin'
+        },{
+          editDateTime: '2021-08-01 00:00:00', 
+          editVersion: 2,
+          editor: 'test'
+        },{
+          editDateTime: '2021-08-01 00:00:00', 
+          editVersion: 3,
+          editor: 'test1'
+        }]
       }
     },
   })

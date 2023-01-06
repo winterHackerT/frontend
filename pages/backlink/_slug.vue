@@ -27,10 +27,7 @@
       </form>
     </fieldset>
 
-    <div class="controller">
-      <button class="btn"><i class="bi bi-chevron-left"></i>Prev</button>
-      <button class="btn">Next<i class="bi bi-chevron-right"></i></button>
-    </div>
+    <controller/>
 
     <div class="indexContainter">
       <div v-for="(data, index) in backLinkDataList" :key="index">
@@ -45,16 +42,15 @@
       </div>
     </div>
 
-    <div class="controller">
-      <button class="btn"><i class="bi bi-chevron-left"></i>Prev</button>
-      <button class="btn">Next<i class="bi bi-chevron-right"></i></button>
-    </div>
+    <controller/>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import Controller from '../../components/Controller.vue';
 export default defineComponent({
+  components: { Controller },
   setup() {
     return {}
   },
@@ -169,14 +165,6 @@ export default defineComponent({
         touch-action: manipulation;
       }
     }
-  }
-}
-
-.controller {
-  .btn {
-    float: left;
-    margin: 0;
-    padding: 7px;
   }
 }
 
