@@ -2,10 +2,12 @@
   <div id="document-title">
     <section id="title">
       <div class="top">
-        <h1>
-          {{ documentTitle }}
-          <small v-if="pageName != ''"> ({{ pageName }})</small>
-        </h1>
+        <NuxtLink :to="`/w/${documentTitle}`">
+          <h1>
+            {{ documentTitle }}
+            <small v-if="pageName != ''"> ({{ pageName }})</small>
+          </h1>
+        </NuxtLink>
 
         <nav>
           <ul>
