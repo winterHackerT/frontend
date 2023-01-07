@@ -20,7 +20,7 @@
 
     <div class="extra">
       <p>
-        <input type="checkbox" />
+        <input ref="checkTerms" type="checkbox" />
         <span>
           문서 편집을 <b>저장</b>하면 당신은 기여한 내용을 <b>CC-BY-NC-SA 2.0 KR</b>으로 배포하고 기여한 문서에 대한 하이퍼링크나 URL을 이용해서 저작자 표기를 하는 것으로 충분하다는 데 동의하는 것입니다. 이 동의는 <b>철회할 수 없습니다.</b>
         </span>
@@ -85,6 +85,9 @@ export default defineComponent({
         return;
       } else if (this.message.length < 2) {
         alert("요약 내용의 길이는 2자 이상 입력해야 합니다");
+        return;
+      } else if (!(this.$refs.checkTerms! as HTMLInputElement).checked) {
+        alert("아래 약관에 동의해주시기 바랍니다");
         return;
       }
 
