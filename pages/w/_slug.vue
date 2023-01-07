@@ -3,23 +3,23 @@
     <document-title
       v-if="!isFetchError"
       :document-title="documentTitle"
-      :recent-edit="recentEdit"
+      :edit-time="documentData.datetime"
       :page-name="`${documentVersion}`"
     >
-    <div v-if="!isFetchError">
-      <li v-if="!isNotFound">
-        <NuxtLink to="#" class="btn star">
-          <i class="bi bi-star"></i> 0
-          <span class="tooltip">Star</span>
-        </NuxtLink>
-      </li>
+      <div v-if="!isFetchError">
+        <li v-if="!isNotFound">
+          <NuxtLink to="#" class="btn star">
+            <i class="bi bi-star"></i> 0
+            <span class="tooltip">Star</span>
+          </NuxtLink>
+        </li>
 
-      <li><NuxtLink :to="`/backlink/${documentTitle}`" class="btn">역링크</NuxtLink></li>
-      <li><NuxtLink :to="`/discuss/${documentTitle}`" class="btn">토론</NuxtLink></li>
-      <li><NuxtLink :to="`/edit/${documentTitle}`" class="btn">편집</NuxtLink></li>
-      <li><NuxtLink :to="`/history/${documentTitle}`" class="btn">역사</NuxtLink></li>
-      <li><NuxtLink to="#" class="btn">ACL</NuxtLink></li>
-    </div>
+        <li><NuxtLink :to="`/backlink/${documentTitle}`" class="btn">역링크</NuxtLink></li>
+        <li><NuxtLink :to="`/discuss/${documentTitle}`" class="btn">토론</NuxtLink></li>
+        <li><NuxtLink :to="`/edit/${documentTitle}`" class="btn">편집</NuxtLink></li>
+        <li><NuxtLink :to="`/history/${documentTitle}`" class="btn">역사</NuxtLink></li>
+        <li><NuxtLink to="#" class="btn">ACL</NuxtLink></li>
+      </div>
     </document-title>
 
     <div v-if="isFetchError" class="fetch-error-message">
@@ -51,8 +51,10 @@
     </div>
 
     <content v-if="!isFetchError && !isNotFound">
-      <classification-block v-if="!isFetchError && !isFetchError && !isNotFound"/>
-      <index-components />
+      <!-- <classification-block v-if="!isFetchError && !isFetchError && !isNotFound"/>
+      <index-components /> -->
+
+      <DocumentViewer :markdown="documentData.content" />
     </content>
   </div>
 </template>
@@ -73,6 +75,16 @@ interface DocumentHistroy {
   diff: number
 };
 
+interface DocumentData {
+  "id": number,
+  "title": String,
+  "content": String,
+  "datetime": String,
+  "username": String,
+  "addr": String,
+  "starCount": number
+};
+
 export default defineComponent({
   setup() {
     return {}
@@ -81,10 +93,10 @@ export default defineComponent({
     return {
       documentTitle: this.$route.params.slug as any,
       documentHistory: [] as DocumentHistroy[],
-      recentEdit: "",
+      documentData: {} as DocumentData,
       documentVersion: this.$route.query?.rev ? `r${this.$route.query?.rev} 판` : '',
-      isNotFound: false,
-      isFetchError: false,
+      isNotFound: true,
+      isFetchError: true,
     }
   },
   created() {
@@ -96,8 +108,11 @@ export default defineComponent({
       axios
         .get(this.$accessor.api + "/docs/" + documentTitle)
         .then(response => {
+          this.isFetchError = false;
+
           if (response.data.success) {
-            this.recentEdit = "20XX-XX-XX XX:XX:XX"
+            this.documentData = response.data.data;
+            this.isNotFound = false;
           } else {
             this.isNotFound = true;
           }
