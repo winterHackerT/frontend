@@ -6,8 +6,8 @@
       :recent-edit="recentEdit"
       :page-name="`${documentVersion}`"
     >
-    <div v-if="!isFetchError && !isNotFound">
-      <li>
+    <div v-if="!isFetchError">
+      <li v-if="!isNotFound">
         <NuxtLink to="#" class="btn star">
           <i class="bi bi-star"></i> 0
           <span class="tooltip">Star</span>
@@ -20,15 +20,10 @@
       <li><NuxtLink :to="`/history/${documentTitle}`" class="btn">역사</NuxtLink></li>
       <li><NuxtLink to="#" class="btn">ACL</NuxtLink></li>
     </div>
-
-    <div v-else>
-      <li><NuxtLink to="#" class="btn">편집</NuxtLink></li>
-      <li><NuxtLink :to="`/backlink/${documentTitle}`" class="btn">역링크</NuxtLink></li>
-    </div>
     </document-title>
 
     <div v-if="isFetchError" class="fetch-error-message">
-      <spna>문서를 읽어오는 과정에서 오류가 발생했습니다!</spna>
+      <span>문서를 읽어오는 과정에서 오류가 발생했습니다!</span>
     </div>
 
     <div v-if="isNotFound" class="document-not-found">
@@ -37,7 +32,7 @@
       <br />
       <NuxtLink to="#">[새 문서 만들기]</NuxtLink>
 
-      <div v-if="documentHistory" class="document-history">
+      <div v-if="documentHistory.length > 0" class="document-history">
         <b class="title">이 문서의 역사</b>
         
         <ul>
@@ -51,7 +46,7 @@
           </li>
         </ul>
 
-        <NuxtLink to="#">[더보기]</NuxtLink>
+        <NuxtLink :to="`/history/${documentTitle}`">[더보기]</NuxtLink>
       </div>
     </div>
 
@@ -125,17 +120,17 @@ export default defineComponent({
         });
     },
     diffDocument(index: number) {
-      if (index >= this.documentHistory.length) {
+      if (index < 0 || index >= this.documentHistory.length) {
         return 0;
       }
 
       const currentLenght = this.documentHistory[index].length as number;
 
-      if (index === 0) {
+      if (index === this.documentHistory.length - 1) {
         return currentLenght;
 
       } else {
-        const prevLength = this.documentHistory[index - 1].length as number;
+        const prevLength = this.documentHistory[index + 1].length as number;
         return currentLenght - prevLength;
       }
     }
@@ -147,6 +142,48 @@ export default defineComponent({
 @import '@/assets/css/variable.scss';
 
 #document-view-page {
+  #document-title {
+    .top nav li {
+      .star.btn {
+        .tooltip {
+          color: white;
+          font-size: 18px;
+          padding: 5px 20px;
+          display: none;
+          position: absolute;
+          bottom: 100%;
+          left: 0;
+          margin-bottom: 20px;
+          background-color: black;
+          border-radius: 20px;
+        }
+
+        .tooltip::after {
+          content: '';
+          width: 0;
+          height: 0;
+          border-left: 10px solid transparent;
+          border-right: 10px solid transparent;
+          border-top: 10px solid black;
+          position: absolute;
+          bottom: -10px;
+          left: 50%;
+          margin-left: -10px;
+        }
+        .bi-star {
+          color: red;
+          margin-right: 5px;
+        }
+      }
+
+      .star.btn:hover {
+        .tooltip {
+          display: inline;
+        }
+      }
+    }
+  }
+
   .fetch-error-message {
     color: $danger;
   }

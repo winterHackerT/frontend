@@ -55,117 +55,66 @@
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/css/variable.scss';
-  #document-title {
-    margin-bottom: 30px;
-    #title {
-      .top {
-        margin-bottom: 10px;
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        justify-content: space-between;
+@import '@/assets/css/variable.scss';
 
-        > a {
-          border-bottom: 3px solid transparent;
+#document-title {
+  margin-bottom: 30px;
+
+  #title {
+    .top {
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+
+      > a {
+        border-bottom: 3px solid transparent;
+      }
+
+      > a:hover {
+        border-bottom: 3px solid $primary;
+      }
+
+      h1 {
+        font-size: 35px;
+        overflow-wrap: anywhere;
+        text-decoration: none;
+
+        small {
+          font-weight: normal;
         }
+      }
 
-        > a:hover {
-          border-bottom: 3px solid $primary;
-        }
+      nav {
+        position: relative;
+        top: 6px;
+        flex-grow: 0;
+        flex-shrink: 0;
 
-        h1 {
-          font-size: 35px;
-          overflow-wrap: anywhere;
-          text-decoration: none;
+        ul {
+          li {
+            list-style: none;
+            float: left;
+            position: relative;
 
-          small {
-            font-weight: normal;
-          }
-        }
-
-        nav {
-          position: relative;
-          top: 6px;
-          flex-grow: 0;
-          flex-shrink: 0;
-
-          ul {
-            li {
-              list-style: none;
-              float: left;
-              position: relative;
-              a {
-                font-size: 14px;
-                color: black;
-                text-decoration: blink;
-                padding: 8px 15px;
-              }
-              .star.btn {
-                .tooltip {
-                  color: white;
-                  font-size: 18px;
-                  padding: 5px 20px;
-                  display: none;
-                  position: absolute;
-                  bottom: 100%;
-                  left: 0;
-                  margin-bottom: 20px;
-                  background-color: black;
-                  border-radius: 20px;
-                }
-                .tooltip::after {
-                  content: '';
-                  width: 0;
-                  height: 0;
-                  border-left: 10px solid transparent;
-                  border-right: 10px solid transparent;
-                  border-top: 10px solid black;
-                  position: absolute;
-                  bottom: -10px;
-                  left: 50%;
-                  margin-left: -10px;
-                }
-                .bi-star {
-                  color: red;
-                  margin-right: 5px;
-                }
-              }
-              .star.btn:hover {
-                .tooltip {
-                  display: inline;
-                }
-              }
+            a {
+              font-size: 14px;
+              color: black;
+              text-decoration: blink;
+              padding: 8px 15px;
             }
           }
         }
       }
-      #last-modified-datetime {
-        font-size: 14px;
-        float: right;
-      }
+    }
+    
+    #last-modified-datetime {
+      font-size: 14px;
+      float: right;
     }
   }
-  @media screen and (max-width: $max-table-width) {
-    #document-title {
-      #title {
-        padding-top: 30px;
-        .top {
-          nav {
-            width: 100%;
-            padding: 7px 0;
-            position: absolute;
-            top: 0;
-            right: 0;
-            border-bottom: 1px solid $light-light;
-            background-color: white;
-            display: flex;
-            justify-content: flex-end;
-          }
-        }
-      }
-    }
-  }
+
   .noticeBox {
     border-radius: 0.25rem;
     font-size: .9rem;
@@ -175,9 +124,34 @@
     border: 1px solid #bcdff1;
     color: #31708f;
   }
+
   #prevVer {
     background-color: #f2dede;
     border-color: #ebcccc;
     color: #a94442;
   }
+}
+
+@media screen and (max-width: $max-table-width) {
+  #document-title {
+    #title {
+      padding-top: 30px;
+
+      .top {
+        nav {
+          width: 100%;
+          padding: 7px 0;
+          position: absolute;
+          top: 0;
+          right: 0;
+          border-bottom: 1px solid $light-light;
+          background-color: white;
+          display: flex;
+          justify-content: flex-end;
+        }
+      }
+    }
+  }
+}
+
 </style>
