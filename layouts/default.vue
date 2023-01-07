@@ -14,6 +14,20 @@
     </main>
 
     <GlobalFooter />
+
+    <div id="global-help-btn">
+      <button class="btn">
+        <i class="bi bi-gear-wide-connected"></i>
+      </button>
+
+      <button class="btn" @click="scrollVerticalTo(0)">
+        <i class="bi bi-chevron-up"></i>
+      </button>
+
+      <button class="btn" @click="scrollVerticalTo(-1)">
+        <i class="bi bi-chevron-down"></i>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -41,6 +55,9 @@ export default defineComponent({
     this.fetchRecentChanges();
   },
   methods: {
+    scrollVerticalTo(position: number) {
+      window.scrollTo(0, position >= 0 ? position : document.body.offsetHeight);
+    },
     fetchRecentChanges() {
       axios
         .get(this.$accessor.api + "/docs/recent")
@@ -53,7 +70,7 @@ export default defineComponent({
             this.recentChanges.push({
               title: item.title as string,
               link: `/w/${item.title}`,
-              meta: item.datetime.substring(14, 19)
+              meta: item.datetime.substring(11, 16)
             });
           }
         })
@@ -111,6 +128,29 @@ export default defineComponent({
         margin-top: 20px;
       }
     }
+  }
+}
+
+#global-help-btn {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+
+  display: flex;
+  flex-direction: row;
+
+  .btn {
+    background-color: #00498cdd;
+    border: none;
+
+    i {
+      color: white;
+      font-size: 25px;
+    }
+  }
+
+  .btn:hover {
+    background-color: $primary;
   }
 }
 
