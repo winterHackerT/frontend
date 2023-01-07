@@ -140,6 +140,7 @@
           }
         }
       }
+      
       #last-modified-datetime {
         font-size: 14px;
         float: right;
