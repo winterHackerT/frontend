@@ -37,7 +37,7 @@
       <br />
       <NuxtLink to="#">[새 문서 만들기]</NuxtLink>
 
-      <div v-if="documentHistory" class="document-history">
+      <div v-if="documentHistory.length > 0" class="document-history">
         <b class="title">이 문서의 역사</b>
         
         <ul>
