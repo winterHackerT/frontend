@@ -104,6 +104,11 @@
               text-decoration: blink;
               padding: 8px 15px;
             }
+
+            a.danger {
+              color: white;
+              background-color: $danger;
+            }
           }
         }
       }

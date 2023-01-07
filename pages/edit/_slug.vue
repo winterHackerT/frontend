@@ -5,7 +5,7 @@
       page-name="새 문서 생성"
     >
       <li><NuxtLink :to="`/backlink/${documentTitle}`" class="btn">역링크</NuxtLink></li>
-      <li><NuxtLink to="#" class="btn">삭제</NuxtLink></li>
+      <li><NuxtLink to="#" class="btn danger">삭제</NuxtLink></li>
       <li><NuxtLink to="#" class="btn">이동</NuxtLink></li>
     </document-title>
 
