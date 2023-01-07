@@ -1,5 +1,5 @@
 <template>
-    <div id="document-view-page">
+    <div id="document-history-page">
       <document-title
         :document-title="documentTitle"
         page-name="문서 역사"
@@ -13,15 +13,32 @@
 
       <controller />
         <ul>
-            <li v-for="(item, index) in documentItems" :key="index">
-              {{item.editDateTime}}(<NuxtLink :to="`/w/${documentTitle}?rev=${item.editVersion}`">보기</NuxtLink>|<NuxtLink :to="`/raw/${documentTitle}?rev=${item.editVersion}`">RAW</NuxtLink>|<NuxtLink to="#">Blame</NuxtLink>|<NuxtLink to="#">이 리비전으로 되돌리기</NuxtLink>|<NuxtLink to="#">비교</NuxtLink>) <input type="radio"> <input type="radio"/> r{{ item.editVersion }} (+1) <NuxtLink to="">{{ item.editor }}</Nuxtlink> ()
-            </li>
+          <li v-for="(item, index) in documentHistory" :key="index">
+            <span class="datetime">{{item.datetime}}</span>
+            <span class="links">
+              (
+                <NuxtLink :to="`/w/${documentTitle}?rev=${item.order}`">보기</NuxtLink>
+                | <NuxtLink :to="`/raw/${documentTitle}?rev=${item.order}`">RAW</NuxtLink>
+                | <NuxtLink to="#">Blame</NuxtLink>
+                | <NuxtLink to="#">이 리비전으로 되돌리기</NuxtLink>
+                | <NuxtLink to="#">비교</NuxtLink>
+              )
+            </span>
+
+            <input type="radio">
+            <input type="radio"/>
+            <span clsas="order">r{{ item.order }}</span> 
+            <span class="diff" :class="{positive: item.diff > 0, negative: item.diff < 0}">({{ item.diff > 0 ? "+" : "" }}{{ item.diff }})</span>
+            <NuxtLink class="user" to="#">{{ item.username != null ? item.username : item.addr }}</Nuxtlink>
+            <span class="working">({{ item.working }})</span>
+          </li>
         </ul>
       <controller />
     </div>
   </template>
   
 <script lang="ts">
+import axios from 'axios';
 import { defineComponent } from 'vue';
 
 interface DocumentHistroy {
@@ -43,113 +60,46 @@ export default defineComponent({
   data() {
     return {
       documentTitle: this.$route.params.slug as any,
-      documentItems: [
-        {
-          editDateTime: '2021-08-01 00:00:00', 
-          editVersion: 1,
-          editor: 'admin'
-        },
-        {
-          editDateTime: '2021-08-01 00:00:00', 
-          editVersion: 2,
-          editor: 'test'
-        },
-        {
-          editDateTime: '2021-08-01 00:00:00', 
-          editVersion: 3,
-          editor: 'test1'
-        }
-      ]
+      documentHistory: [] as DocumentHistroy[],
+      isFetchError: false,
     }
   },
+  created() {
+    this.fetchDocumentHistory(this.documentTitle);
+  },
+  methods: {
+    fetchDocumentHistory(documentTitle: String) {
+      axios
+        .get(this.$accessor.api + "/docs/history/" + documentTitle)
+        .then(response => {
+          this.documentHistory = response.data.data;
+          this.documentHistory.forEach((el, index) => {el.diff = this.diffDocument(index)});
+        })
+        .catch(error => {
+          this.isFetchError = true;
+          console.error(error);
+        });
+    },
+    diffDocument(index: number) {
+      if (index < 0 || index >= this.documentHistory.length) {
+        return 0;
+      }
+
+      const currentLenght = this.documentHistory[index].length as number;
+
+      if (index === this.documentHistory.length - 1) {
+        return currentLenght;
+
+      } else {
+        const prevLength = this.documentHistory[index + 1].length as number;
+        return currentLenght - prevLength;
+      }
+    }
+  }
 })
 </script>
 
 <style lang="scss" scoped>
-#document-view-page {
-  #title {
-    .top {
-      margin-bottom: 10px;
-
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      justify-content: space-between;
-
-      h1 {
-        font-size: 35px;
-      }
-
-      nav {
-        position: relative;
-        top: 6px;
-
-        ul {
-          li {
-            list-style: none;
-            float: left;
-
-            position: relative;
-
-            a {
-              font-size: 14px;
-              color: black;
-              text-decoration: blink;
-              padding: 8px 15px;
-            }
-
-            .star.btn {
-              .tooltip {
-                color: white;
-                font-size: 18px;
-
-                padding: 5px 20px;
-                display: none;
-
-                position: absolute;
-                bottom: 100%;
-                left: 0;
-                margin-bottom: 20px;
-
-                background-color: black;
-                border-radius: 20px;
-              }
-
-              .tooltip::after {
-                content: '';
-
-                width: 0;
-                height: 0;
-                border-left: 10px solid transparent;
-                border-right: 10px solid transparent;
-                border-top: 10px solid black;
-
-                position: absolute;
-                bottom: -10px;
-                left: 50%;
-                margin-left: -10px;
-              }
-
-              .bi-star {
-                color: red;
-                margin-right: 5px;
-              }
-            }
-
-            .star.btn:hover {
-              .tooltip {
-                display: inline;
-              }
-            }
-          }
-        }
-      }
-    }
-
-    #last-modified-datetime {
-      font-size: 14px;
-      float: right;
-    }
-  }
+#document-history-page {
 }
 </style>
