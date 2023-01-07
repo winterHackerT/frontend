@@ -78,11 +78,11 @@ export default defineComponent({
       axios
         .get(this.$accessor.api + '/docs/' + this.documentTitle)
         .then(response => {
+          this.isFetchError = false;
           this.documentData = response.data.data;
           
           if (response.data.success) {
             this.content = this.documentData.content as string;
-            this.isFetchError = false;
           }
         })
         .catch(error => console.error(error));
