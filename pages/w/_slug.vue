@@ -30,7 +30,7 @@
       <span>해당 문서를 찾을 수 없습니다.</span>
       <br />
       <br />
-      <NuxtLink to="#">[새 문서 만들기]</NuxtLink>
+      <NuxtLink :to="`/edit/${documentTitle}`">[새 문서 만들기]</NuxtLink>
 
       <div v-if="documentHistory.length > 0" class="document-history">
         <b class="title">이 문서의 역사</b>
