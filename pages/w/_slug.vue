@@ -6,8 +6,8 @@
       :recent-edit="recentEdit"
       :page-name="`${documentVersion}`"
     >
-    <div v-if="!isFetchError && !isNotFound">
-      <li>
+    <div v-if="!isFetchError">
+      <li v-if="!isNotFound">
         <NuxtLink to="#" class="btn star">
           <i class="bi bi-star"></i> 0
           <span class="tooltip">Star</span>
@@ -19,11 +19,6 @@
       <li><NuxtLink to="#" class="btn">편집</NuxtLink></li>
       <li><NuxtLink :to="`/history/${documentTitle}`" class="btn">역사</NuxtLink></li>
       <li><NuxtLink to="#" class="btn">ACL</NuxtLink></li>
-    </div>
-
-    <div v-else>
-      <li><NuxtLink to="#" class="btn">편집</NuxtLink></li>
-      <li><NuxtLink :to="`/backlink/${documentTitle}`" class="btn">역링크</NuxtLink></li>
     </div>
     </document-title>
 
