@@ -17,12 +17,15 @@ a {
 input,
 select {
   cursor: pointer;
+
+  color: $secondary;
   background-color: white;
   border: 1px solid $light-light;
-  color: $input-seconadry;
+
+  padding: 5px 10px;
 
   * {
-    color: $input-seconadry;
+    color: $secondary;
   }
 }
 

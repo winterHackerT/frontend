@@ -1,41 +1,47 @@
 <template>
-    <div id="document-history-page">
-      <document-title
-        :document-title="documentTitle"
-        page-name="문서 역사"
-      >
-  
-        <li><NuxtLink to="#" class="btn">편집</NuxtLink></li>
-        <li>
-          <NuxtLink :to="`/backlink/${documentTitle}`" class="btn">역링크</NuxtLink>
-        </li>
-      </document-title>
+  <div id="document-history-page">
+    <document-title
+      :document-title="documentTitle"
+      page-name="문서 역사"
+    >
 
-      <controller />
-        <ul>
-          <li v-for="(item, index) in documentHistory" :key="index">
-            <span class="datetime">{{item.datetime}}</span>
-            <span class="links">
-              (
-                <NuxtLink :to="`/w/${documentTitle}?rev=${item.order}`">보기</NuxtLink>
-                | <NuxtLink :to="`/raw/${documentTitle}?rev=${item.order}`">RAW</NuxtLink>
-                | <NuxtLink to="#">Blame</NuxtLink>
-                | <NuxtLink to="#">이 리비전으로 되돌리기</NuxtLink>
-                | <NuxtLink to="#">비교</NuxtLink>
-              )
-            </span>
+      <li><NuxtLink to="#" class="btn">편집</NuxtLink></li>
+      <li>
+        <NuxtLink :to="`/backlink/${documentTitle}`" class="btn">역링크</NuxtLink>
+      </li>
+    </document-title>
 
-            <input type="radio">
-            <input type="radio"/>
-            <span clsas="order">r{{ item.order }}</span> 
-            <span class="diff" :class="{positive: item.diff > 0, negative: item.diff < 0}">({{ item.diff > 0 ? "+" : "" }}{{ item.diff }})</span>
-            <NuxtLink class="user" to="#">{{ item.username != null ? item.username : item.addr }}</Nuxtlink>
-            <span class="working">({{ item.working }})</span>
-          </li>
-        </ul>
-      <controller />
+    <div class="compare-btn">
+      <button class="btn">선택 리비전 비교</button>
     </div>
-  </template>
+
+    <controller />
+
+    <ul class="history">
+      <li v-for="(item, index) in documentHistory" :key="index">
+        <span class="datetime">{{item.datetime}}</span>
+        <span class="links">
+          (
+            <NuxtLink :to="`/w/${documentTitle}?rev=${item.order}`">보기</NuxtLink>
+            | <NuxtLink :to="`/raw/${documentTitle}?rev=${item.order}`">RAW</NuxtLink>
+            | <NuxtLink to="#">Blame</NuxtLink>
+            | <NuxtLink to="#">이 리비전으로 되돌리기</NuxtLink>
+            | <NuxtLink to="#">비교</NuxtLink>
+          )
+        </span>
+
+        <input type="radio">
+        <input type="radio"/>
+        <span clsas="order"><b>r{{ item.order }}</b></span>
+        <span class="diff" :class="{positive: item.diff > 0, negative: item.diff < 0}">({{ item.diff > 0 ? "+" : "" }}{{ item.diff }})</span>
+        <NuxtLink class="user" to="#">{{ item.username != null ? item.username : item.addr }}</Nuxtlink>
+        <span class="working">({{ item.working }})</span>
+      </li>
+    </ul>
+
+    <controller />
+  </div>
+</template>
   
 <script lang="ts">
 import axios from 'axios';
@@ -100,6 +106,38 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/css/variable.scss';
+
 #document-history-page {
+
+  .compare-btn {
+    margin: 10px 0;
+  }
+
+  .history {
+    margin: 20px 0;
+
+    li {
+      margin-left: 40px;
+      font-size: 14px;
+      padding: 5px 0;
+
+      .working {
+        font-style: italic;
+      }
+
+      .diff.positive {
+        color: green;
+      }
+
+      .diff.negative {
+        color: $danger;
+      }
+
+      .message {
+        color: $light-secondary;
+      }
+    }
+  }
 }
 </style>
