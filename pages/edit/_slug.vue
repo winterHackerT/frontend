@@ -140,7 +140,7 @@ export default defineComponent({
   .message {
     display: flex;
     flex-direction: column;
-    margin: 10px 0;
+    margin: 20px 0;
 
     input[type="text"] {
       margin: 5px 0;
