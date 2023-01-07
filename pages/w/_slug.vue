@@ -51,7 +51,7 @@
           </li>
         </ul>
 
-        <NuxtLink to="#">[더보기]</NuxtLink>
+        <NuxtLink :to="`/history/${documentTitle}`">[더보기]</NuxtLink>
       </div>
     </div>
 
