@@ -52,7 +52,7 @@ export default defineComponent({
           for (const item of data) {
             this.recentChanges.push({
               title: item.title as string,
-              link: ``,
+              link: `/w/${item.title}`,
               meta: item.datetime.substring(14, 19)
             });
           }
