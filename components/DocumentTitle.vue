@@ -65,19 +65,31 @@
         flex-direction: row;
         align-items: flex-start;
         justify-content: space-between;
+
+        > a {
+          border-bottom: 3px solid transparent;
+        }
+
+        > a:hover {
+          border-bottom: 3px solid $primary;
+        }
+
         h1 {
           font-size: 35px;
           overflow-wrap: anywhere;
           text-decoration: none;
+
           small {
             font-weight: normal;
           }
         }
+
         nav {
           position: relative;
           top: 6px;
           flex-grow: 0;
           flex-shrink: 0;
+
           ul {
             li {
               list-style: none;
