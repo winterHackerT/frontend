@@ -18,7 +18,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
+
+interface SideListItem {
+  title: string,
+  link: string,
+  meta: string | null
+};
 
 export default defineComponent({
   setup() {
@@ -26,48 +32,13 @@ export default defineComponent({
   },
   data() {
     return {
-      recentChanges: [
-        {
-          title: 'test test test test test test1',
-          link: '#',
-          meta: '23:50',
-        },
-        {
-          title: 'test test test test test test1',
-          link: '#',
-          meta: '23:50',
-        },
-        {
-          title: 'test test test test test test1',
-          link: '#',
-          meta: '23:50',
-        },
-        {
-          title: 'test test test test test test1',
-          link: '#',
-          meta: '23:50',
-        },
-      ],
-      recentPosts: [
-        {
-          title: 'test test test test test test test test2',
-          link: '#',
-        },
-        {
-          title: 'test test test test test test test test2',
-          link: '#',
-        },
-        {
-          title: 'test test test test test test test test2',
-          link: '#',
-        },
-        {
-          title: 'test test test test test test test test2',
-          link: '#',
-        },
-      ],
+      recentChanges: [] as SideListItem[],
+      recentPosts: [] as SideListItem[],
     }
   },
+  created() {
+
+  }
 })
 </script>
 
