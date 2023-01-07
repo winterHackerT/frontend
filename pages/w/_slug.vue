@@ -1,6 +1,7 @@
 <template>
   <div id="document-view-page">
     <document-title
+      v-if="!isFetchError"
       :document-title="documentTitle"
       :recent-edit="recentEdit"
       :page-name="`${documentVersion}`"
