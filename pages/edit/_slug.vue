@@ -41,6 +41,16 @@
 import axios from 'axios'
 import { defineComponent } from 'vue'
 
+interface DocumentData {
+  "id": number,
+  "title": String,
+  "content": String,
+  "datetime": String,
+  "username": String,
+  "addr": String,
+  "starCount": number
+};
+
 export default defineComponent({
   setup () {
     return {}
@@ -48,11 +58,27 @@ export default defineComponent({
   data() {
     return {
       documentTitle: this.$route.params.slug as any,
+      documentData: {} as DocumentData,
       content: '',
       message: '문서 편집'
     }
   },
+  created() {
+    this.fetchDocument();
+  },
   methods: {
+    fetchDocument() {
+      axios
+        .get(this.$accessor.api + '/docs/' + this.documentTitle)
+        .then(response => {
+          this.documentData = response.data.data;
+          
+          if (response.data.success) {
+            this.content = this.documentData.content as string;
+          }
+        })
+        .catch(error => console.error(error));
+    },
     saveDocument() {
       if (this.content.length < 2) {
         alert("컨턴츠 내용의 길이는 2자 이상 입력해야 합니다");

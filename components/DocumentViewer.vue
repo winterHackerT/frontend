@@ -5,7 +5,7 @@
 
 <script lang="ts">
 import MarkdownIt from 'markdown-it';
-
+import highlightJS from 'highlight.js';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -25,7 +25,21 @@ export default defineComponent({
     }
   },
   created () {
-    this.content = new MarkdownIt()
+    const options: MarkdownIt.Options = {
+      html: true,
+      xhtmlOut: true,
+      highlight: function (str, lang) {
+        if (lang && highlightJS.getLanguage(lang)) {
+          try {
+            return highlightJS.highlight(str, { language: lang }).value;
+          } catch (__) {}
+        }
+
+        return ''; // use external default escaping
+      }
+    };
+
+    this.content = new MarkdownIt(options)
       .use(require('markdown-it-emoji'))
       .use(require('markdown-it-sup'))
       .use(require('markdown-it-sub'))
@@ -41,6 +55,7 @@ export default defineComponent({
 
 <style lang="scss">
 @import '@/assets/css/variable.scss';
+@import 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css';
 
 .document-viewer {
   h1, h2, h3, h4, h5, h6 {
@@ -84,7 +99,7 @@ export default defineComponent({
     padding-left: 5px;
   }
 
-  pre, .inline-code {
+  pre, code {
     border: 1px solid $light-light;
     background-color: $light-light;
     border-radius: 5px;
@@ -93,11 +108,11 @@ export default defineComponent({
   }
 
   li {
-    margin-left: 10px;
+    margin: 5px;
     // list-style-position: inside;
   }
 
-  .inline-code {
+  code {
     margin-left: 5px;
     margin-right: 5px;
   }
