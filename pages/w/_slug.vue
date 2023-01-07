@@ -39,8 +39,10 @@
       </div>
     </div>
 
-    <classification-block v-if="!isFetchError && !isFetchError && !isNotFound"/>
-    <index-components />
+    <content v-if="!isFetchError && !isNotFound">
+      <classification-block v-if="!isFetchError && !isFetchError && !isNotFound"/>
+      <index-components />
+    </content>
   </div>
 </template>
 
