@@ -18,6 +18,7 @@
 </template>
 
 <script lang="ts">
+import axios from 'axios';
 import { defineComponent } from 'vue';
 
 interface SideListItem {
@@ -37,7 +38,27 @@ export default defineComponent({
     }
   },
   created() {
+    this.fetchRecentChanges();
+  },
+  methods: {
+    fetchRecentChanges() {
+      axios
+        .get(this.$accessor.api + "/docs/recent")
+        .then(response => {
+          const data = response.data.data;
+          
+          this.recentChanges = [];
 
+          for (const item of data) {
+            this.recentChanges.push({
+              title: item.title as string,
+              link: ``,
+              meta: item.datetime.substring(14, 19)
+            });
+          }
+        })
+        .catch(error => console.error(error));
+    }
   }
 })
 </script>
