@@ -28,7 +28,9 @@
         <textarea :value="value" @change="change"></textarea>
       </section>
 
-      <section>TAB 3</section>
+      <section class="preview">
+        <DocumentViewer :markdown="content" />
+      </section>
     </main>
   </div>
 </template>
@@ -46,6 +48,11 @@ export default defineComponent({
   setup () {
     return {}
   },
+  data() {
+    return {
+      content: this.value
+    }
+  },
   methods: {
     setTab(index: number) {
       const tabs = this.$refs.tabs as HTMLElement;
@@ -59,6 +66,7 @@ export default defineComponent({
     },
     change(event: any) {
       this.$emit('input', event.target.value);
+      this.content = event.target.value;
     }
   }
 })

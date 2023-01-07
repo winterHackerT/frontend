@@ -18,37 +18,48 @@ export default defineComponent({
   setup () {
     return {}
   },
-  
   data () {
     return {
       content: ''
     }
   },
-  created () {
-    const options: MarkdownIt.Options = {
-      html: true,
-      xhtmlOut: true,
-      highlight: function (str, lang) {
-        if (lang && highlightJS.getLanguage(lang)) {
-          try {
-            return highlightJS.highlight(str, { language: lang }).value;
-          } catch (__) {}
+  watch: {
+    markdown (newValue) {
+      this.content = this.renderDocument(newValue);
+    }
+  },
+  mounted () {
+    this.content = this.renderDocument(this.markdown);
+  },
+  methods: {
+    renderDocument(markdown: string) {
+      const options: MarkdownIt.Options = {
+        html: true,
+        xhtmlOut: true,
+        highlight: function (str, lang) {
+          if (lang && highlightJS.getLanguage(lang)) {
+            try {
+              return highlightJS.highlight(str, { language: lang }).value;
+            } catch (__) {}
+          }
+
+          return ''; // use external default escaping
         }
+      };
 
-        return ''; // use external default escaping
-      }
-    };
+      const content = new MarkdownIt(options)
+        .use(require('markdown-it-emoji'))
+        .use(require('markdown-it-sup'))
+        .use(require('markdown-it-sub'))
+        .use(require('markdown-it-ins'))
+        .use(require('markdown-it-footnote'))
+        .use(require('markdown-it-deflist'))
+        .use(require('markdown-it-abbr'))
+        .use(require('markdown-it-container'))
+        .render(markdown);
 
-    this.content = new MarkdownIt(options)
-      .use(require('markdown-it-emoji'))
-      .use(require('markdown-it-sup'))
-      .use(require('markdown-it-sub'))
-      .use(require('markdown-it-ins'))
-      .use(require('markdown-it-footnote'))
-      .use(require('markdown-it-deflist'))
-      .use(require('markdown-it-abbr'))
-      .use(require('markdown-it-container'))
-      .render(this.markdown);
+      return content;
+    }
   }
 })
 </script>
@@ -109,7 +120,11 @@ export default defineComponent({
 
   li {
     margin: 5px;
-    // list-style-position: inside;
+    list-style-position: inside;
+
+    p {
+      display: inline;
+    }
   }
 
   code {
