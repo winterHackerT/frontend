@@ -18,7 +18,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import axios from 'axios';
+import { defineComponent } from 'vue';
+
+interface SideListItem {
+  title: string,
+  link: string,
+  meta: string | null
+};
 
 export default defineComponent({
   setup() {
@@ -26,48 +33,33 @@ export default defineComponent({
   },
   data() {
     return {
-      recentChanges: [
-        {
-          title: 'test test test test test test1',
-          link: '#',
-          meta: '23:50',
-        },
-        {
-          title: 'test test test test test test1',
-          link: '#',
-          meta: '23:50',
-        },
-        {
-          title: 'test test test test test test1',
-          link: '#',
-          meta: '23:50',
-        },
-        {
-          title: 'test test test test test test1',
-          link: '#',
-          meta: '23:50',
-        },
-      ],
-      recentPosts: [
-        {
-          title: 'test test test test test test test test2',
-          link: '#',
-        },
-        {
-          title: 'test test test test test test test test2',
-          link: '#',
-        },
-        {
-          title: 'test test test test test test test test2',
-          link: '#',
-        },
-        {
-          title: 'test test test test test test test test2',
-          link: '#',
-        },
-      ],
+      recentChanges: [] as SideListItem[],
+      recentPosts: [] as SideListItem[],
     }
   },
+  created() {
+    this.fetchRecentChanges();
+  },
+  methods: {
+    fetchRecentChanges() {
+      axios
+        .get(this.$accessor.api + "/docs/recent")
+        .then(response => {
+          const data = response.data.data;
+          
+          this.recentChanges = [];
+
+          for (const item of data) {
+            this.recentChanges.push({
+              title: item.title as string,
+              link: `/w/${item.title}`,
+              meta: item.datetime.substring(14, 19)
+            });
+          }
+        })
+        .catch(error => console.error(error));
+    }
+  }
 })
 </script>
 
