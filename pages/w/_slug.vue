@@ -125,17 +125,17 @@ export default defineComponent({
         });
     },
     diffDocument(index: number) {
-      if (index >= this.documentHistory.length) {
+      if (index < 0 || index >= this.documentHistory.length) {
         return 0;
       }
 
       const currentLenght = this.documentHistory[index].length as number;
 
-      if (index === 0) {
+      if (index === this.documentHistory.length - 1) {
         return currentLenght;
 
       } else {
-        const prevLength = this.documentHistory[index - 1].length as number;
+        const prevLength = this.documentHistory[index + 1].length as number;
         return currentLenght - prevLength;
       }
     }
