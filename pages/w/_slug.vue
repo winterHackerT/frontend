@@ -6,6 +6,7 @@
       :recent-edit="recentEdit"
       :page-name="`${documentVersion}`"
     >
+    <div v-if="!isFetchError && !isNotFound">
       <li>
         <NuxtLink to="#" class="btn star">
           <i class="bi bi-star"></i> 0
@@ -13,13 +14,17 @@
         </NuxtLink>
       </li>
 
-      <li>
-        <NuxtLink :to="`/backlink/${documentTitle}`" class="btn">역링크</NuxtLink>
-      </li>
+      <li><NuxtLink :to="`/backlink/${documentTitle}`" class="btn">역링크</NuxtLink></li>
       <li><NuxtLink :to="`/discuss/${documentTitle}`" class="btn">토론</NuxtLink></li>
       <li><NuxtLink to="#" class="btn">편집</NuxtLink></li>
       <li><NuxtLink :to="`/history/${documentTitle}`" class="btn">역사</NuxtLink></li>
       <li><NuxtLink to="#" class="btn">ACL</NuxtLink></li>
+    </div>
+
+    <div v-else>
+      <li><NuxtLink to="#" class="btn">편집</NuxtLink></li>
+      <li><NuxtLink :to="`/backlink/${documentTitle}`" class="btn">역링크</NuxtLink></li>
+    </div>
     </document-title>
 
     <div v-if="isFetchError" class="fetch-error-message">
@@ -33,20 +38,45 @@
       <NuxtLink to="#">[새 문서 만들기]</NuxtLink>
 
       <div v-if="documentHistory" class="document-history">
+        <b class="title">이 문서의 역사</b>
+        
         <ul>
-          <li></li>
+          <li v-for="history, index in documentHistory.slice(0, 3)" :key="index">
+            <span class="datetime">{{ history.datetime.substring(0, 10) }} {{ history.datetime.substring(11, 19) }}</span>
+            <b class="order">r{{ history.order }}</b>
+            <span class="working">({{ history.working }})</span>
+            <span class="diff" :class="{positive: history.diff > 0, negative: history.diff < 0}">({{ history.diff > 0 ? "+" : "" }}{{ history.diff }})</span>
+            <NuxtLink to="#">{{ history.username != null ? history.username : history.addr }}</NuxtLink>
+            <span class="message">( <span>{{ history.message }}</span> )</span>
+          </li>
         </ul>
+
+        <NuxtLink to="#">[더보기]</NuxtLink>
       </div>
     </div>
 
-    <classification-block v-if="!isFetchError && !isFetchError && !isNotFound"/>
-    <index-components />
+    <content v-if="!isFetchError && !isNotFound">
+      <classification-block v-if="!isFetchError && !isFetchError && !isNotFound"/>
+      <index-components />
+    </content>
   </div>
 </template>
 
 <script lang="ts">
 import axios from 'axios';
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
+
+interface DocumentHistroy {
+  addr: String,
+  datetime: String,
+  id: Number,
+  length: Number,
+  message: String,
+  order: Number,
+  username: String,
+  working: String,
+  diff: number
+};
 
 export default defineComponent({
   setup() {
@@ -55,14 +85,14 @@ export default defineComponent({
   data() {
     return {
       documentTitle: this.$route.params.slug as any,
-      documentHistory: [],
+      documentHistory: [] as DocumentHistroy[],
       recentEdit: "",
       documentVersion: this.$route.query?.rev ? `r${this.$route.query?.rev} 판` : '',
       isNotFound: false,
       isFetchError: false,
     }
   },
-  mounted() {
+  created() {
     this.fetchDocument(this.documentTitle);
     this.fetchDocumentHistory(this.documentTitle);
   },
@@ -86,13 +116,28 @@ export default defineComponent({
       axios
         .get(this.$accessor.api + "/docs/history/" + documentTitle)
         .then(response => {
-          console.log(response.data);
-          this.documentHistory = response.data;
+          this.documentHistory = response.data.data;
+          this.documentHistory.forEach((el, index) => {el.diff = this.diffDocument(index)});
         })
         .catch(error => {
           this.isFetchError = true;
           console.error(error);
         });
+    },
+    diffDocument(index: number) {
+      if (index >= this.documentHistory.length) {
+        return 0;
+      }
+
+      const currentLenght = this.documentHistory[index].length as number;
+
+      if (index === 0) {
+        return currentLenght;
+
+      } else {
+        const prevLength = this.documentHistory[index - 1].length as number;
+        return currentLenght - prevLength;
+      }
     }
   },
 }) 
@@ -102,88 +147,38 @@ export default defineComponent({
 @import '@/assets/css/variable.scss';
 
 #document-view-page {
-  #title {
-    .top {
-      margin-bottom: 10px;
+  .fetch-error-message {
+    color: $danger;
+  }
 
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      justify-content: space-between;
+  .document-not-found {
+    .document-history {
+      margin: 40px 0;
 
-      h1 {
-        font-size: 35px;
-      }
+      > ul {
+        margin: 20px 0;
 
-      nav {
-        position: relative;
-        top: 6px;
+        li {
+          margin-left: 50px;
 
-        ul {
-          li {
-            list-style: none;
-            float: left;
+          .working {
+            font-style: italic;
+          }
 
-            position: relative;
+          .diff.positive {
+            color: green;
+          }
 
-            a {
-              font-size: 14px;
-              color: black;
-              text-decoration: blink;
-              padding: 8px 15px;
-            }
-
-            .star.btn {
-              .tooltip {
-                color: white;
-                font-size: 18px;
-
-                padding: 5px 20px;
-                display: none;
-
-                position: absolute;
-                bottom: 100%;
-                left: 0;
-                margin-bottom: 20px;
-
-                background-color: black;
-                border-radius: 20px;
-              }
-
-              .tooltip::after {
-                content: '';
-
-                width: 0;
-                height: 0;
-                border-left: 10px solid transparent;
-                border-right: 10px solid transparent;
-                border-top: 10px solid black;
-
-                position: absolute;
-                bottom: -10px;
-                left: 50%;
-                margin-left: -10px;
-              }
-
-              .bi-star {
-                color: red;
-                margin-right: 5px;
-              }
-            }
-
-            .star.btn:hover {
-              .tooltip {
-                display: inline;
-              }
-            }
+          .diff.negative {
+            color: $danger;
+          }
+          
+          .message {
+            color: $light-secondary;
           }
         }
       }
     }
-  }
-
-  .fetch-error-message {
-    color: $danger;
   }
 }
 </style>
