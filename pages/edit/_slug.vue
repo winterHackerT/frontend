@@ -2,7 +2,7 @@
   <div id="document-edit-page">
     <document-title
       :document-title="documentTitle"
-      page-name="새 문서 생성"
+      page-name="문서 편집"
     >
       <li><NuxtLink :to="`/backlink/${documentTitle}`" class="btn">역링크</NuxtLink></li>
       <li><NuxtLink to="#" class="btn danger">삭제</NuxtLink></li>
@@ -10,12 +10,12 @@
     </document-title>
 
     <div>
-      <DocumentEditor />
+      <DocumentEditor ref="editor" v-model="content" />
     </div>
 
     <div class="message">
       <label>요약</label>
-      <input type="text" />
+      <input v-model="message" type="text" />
     </div>
 
     <div class="extra">
@@ -32,12 +32,13 @@
     </div>
 
     <div class="btn-group">
-      <button class="btn submit">저장</button>
+      <button class="btn submit" @click="saveDocument()">저장</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import axios from 'axios'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -46,7 +47,44 @@ export default defineComponent({
   },
   data() {
     return {
-      documentTitle: this.$route.params.slug as any
+      documentTitle: this.$route.params.slug as any,
+      content: '',
+      message: '문서 편집'
+    }
+  },
+  methods: {
+    saveDocument() {
+      if (this.content.length < 2) {
+        alert("컨턴츠 내용의 길이는 2자 이상 입력해야 합니다");
+        return;
+      } else if (this.message.length < 2) {
+        alert("요약 내용의 길이는 2자 이상 입력해야 합니다");
+        return;
+      }
+
+      const config = {};
+
+      const data = {
+        "title": this.documentTitle,
+        "content": this.content,
+        "message": this.message
+      };
+
+      axios
+        .post(this.$accessor.api + "/docs", data, config)
+        .then(response => {
+          if (response.data.success) {
+            this.$router.push(`/w/${this.documentTitle}`);
+
+          } else {
+            alert("문서 저장 과정에서 오류가 발생했습니다!");
+            console.warn(response.data.message);
+          }
+        })
+        .catch(error => {
+          alert("문서 저장 과정에서 오류가 발생했습니다!");
+          console.error(error);
+        });
     }
   }
 })

@@ -24,7 +24,9 @@
         <div>TAB 1</div>
       </section>
 
-      <section>TAB 2</section>
+      <section class="raw-editor">
+        <textarea :value="value" @change="change"></textarea>
+      </section>
 
       <section>TAB 3</section>
     </main>
@@ -35,6 +37,12 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
+  props: {
+    value: {
+      type: String,
+      default: ''
+    }
+  },
   setup () {
     return {}
   },
@@ -48,6 +56,9 @@ export default defineComponent({
 
       mainElement.querySelector(".active")?.classList.remove("active");
       mainElement.querySelectorAll("section")[index].classList.add("active");
+    },
+    change(event: any) {
+      this.$emit('input', event.target.value);
     }
   }
 })
@@ -93,6 +104,8 @@ export default defineComponent({
     border: 1px solid $light-light;
 
     section {
+      width: 100%;
+      height: 100%;
       display: none;
     }
 
@@ -112,6 +125,19 @@ export default defineComponent({
           border: none;
           font-weight: bold;
         }
+      }
+    }
+
+    .raw-editor {
+      textarea {
+        width: 100%;
+        min-height: 500px;
+        resize: vertical;
+        border: 1px solid $light-light;
+      }
+
+      textarea:focus-visible {
+        outline: none;
       }
     }
   }
