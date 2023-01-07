@@ -142,6 +142,48 @@ export default defineComponent({
 @import '@/assets/css/variable.scss';
 
 #document-view-page {
+  #document-title {
+    .top nav li {
+      .star.btn {
+        .tooltip {
+          color: white;
+          font-size: 18px;
+          padding: 5px 20px;
+          display: none;
+          position: absolute;
+          bottom: 100%;
+          left: 0;
+          margin-bottom: 20px;
+          background-color: black;
+          border-radius: 20px;
+        }
+
+        .tooltip::after {
+          content: '';
+          width: 0;
+          height: 0;
+          border-left: 10px solid transparent;
+          border-right: 10px solid transparent;
+          border-top: 10px solid black;
+          position: absolute;
+          bottom: -10px;
+          left: 50%;
+          margin-left: -10px;
+        }
+        .bi-star {
+          color: red;
+          margin-right: 5px;
+        }
+      }
+
+      .star.btn:hover {
+        .tooltip {
+          display: inline;
+        }
+      }
+    }
+  }
+
   .fetch-error-message {
     color: $danger;
   }
