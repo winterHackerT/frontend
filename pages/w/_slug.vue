@@ -28,7 +28,7 @@
     </document-title>
 
     <div v-if="isFetchError" class="fetch-error-message">
-      <spna>문서를 읽어오는 과정에서 오류가 발생했습니다!</spna>
+      <span>문서를 읽어오는 과정에서 오류가 발생했습니다!</span>
     </div>
 
     <div v-if="isNotFound" class="document-not-found">
