@@ -33,9 +33,20 @@
       <NuxtLink to="#">[새 문서 만들기]</NuxtLink>
 
       <div v-if="documentHistory" class="document-history">
+        <b class="title">이 문서의 역사</b>
+        
         <ul>
-          <li></li>
+          <li v-for="history, index in documentHistory.slice(0, 3)" :key="index">
+            <span class="datetime">{{ history.datetime.substring(0, 10) }} {{ history.datetime.substring(11, 19) }}</span>
+            <b class="order">r{{ history.order }}</b>
+            <span class="working">({{ history.working }})</span>
+            <span class="diff" :class="{positive: history.diff > 0, negative: history.diff < 0}">({{ history.diff > 0 ? "+" : "" }}{{ history.diff }})</span>
+            <NuxtLink to="#">{{ history.username != null ? history.username : history.addr }}</NuxtLink>
+            <span class="message">( <span>{{ history.message }}</span> )</span>
+          </li>
         </ul>
+
+        <NuxtLink to="#">[더보기]</NuxtLink>
       </div>
     </div>
 
@@ -50,6 +61,18 @@
 import axios from 'axios';
 import { defineComponent } from 'vue'
 
+interface DocumentHistroy {
+  addr: String,
+  datetime: String,
+  id: Number,
+  length: Number,
+  message: String,
+  order: Number,
+  username: String,
+  working: String,
+  diff: number
+};
+
 export default defineComponent({
   setup() {
     return {}
@@ -57,14 +80,14 @@ export default defineComponent({
   data() {
     return {
       documentTitle: this.$route.params.slug as any,
-      documentHistory: [],
+      documentHistory: [] as DocumentHistroy[],
       recentEdit: "",
       documentVersion: this.$route.query?.rev ? `r${this.$route.query?.rev} 판` : '',
       isNotFound: false,
       isFetchError: false,
     }
   },
-  mounted() {
+  created() {
     this.fetchDocument(this.documentTitle);
     this.fetchDocumentHistory(this.documentTitle);
   },
@@ -88,13 +111,28 @@ export default defineComponent({
       axios
         .get(this.$accessor.api + "/docs/history/" + documentTitle)
         .then(response => {
-          console.log(response.data);
-          this.documentHistory = response.data;
+          this.documentHistory = response.data.data;
+          this.documentHistory.forEach((el, index) => {el.diff = this.diffDocument(index)});
         })
         .catch(error => {
           this.isFetchError = true;
           console.error(error);
         });
+    },
+    diffDocument(index: number) {
+      if (index >= this.documentHistory.length) {
+        return 0;
+      }
+
+      const currentLenght = this.documentHistory[index].length as number;
+
+      if (index === 0) {
+        return currentLenght;
+
+      } else {
+        const prevLength = this.documentHistory[index - 1].length as number;
+        return currentLenght - prevLength;
+      }
     }
   },
 }) 
@@ -106,6 +144,36 @@ export default defineComponent({
 #document-view-page {
   .fetch-error-message {
     color: $danger;
+  }
+
+  .document-not-found {
+    .document-history {
+      margin: 40px 0;
+
+      > ul {
+        margin: 20px 0;
+
+        li {
+          margin-left: 50px;
+
+          .working {
+            font-style: italic;
+          }
+
+          .diff.positive {
+            color: green;
+          }
+
+          .diff.negative {
+            color: $danger;
+          }
+          
+          .message {
+            color: $light-secondary;
+          }
+        }
+      }
+    }
   }
 }
 </style>
