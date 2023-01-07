@@ -6,8 +6,10 @@
         <button class="btn tab" @click="setTab(1)">RAW 편집</button>
         <button class="btn tab" @click="setTab(2)">미리보기</button>
       </div>
+    </div>
 
-      <div class="right">
+    <main ref="main">
+      <section class="active editor">
         <div class="editor-toolbar">
           <button class="btn">굵게</button>
           <button class="btn">기울임</button>
@@ -18,12 +20,12 @@
           <button class="btn">각주</button>
           <button class="btn">틀</button>
         </div>
-      </div>
-    </div>
 
-    <main ref="main">
-      <section class="active">TAB 1</section>
+        <div>TAB 1</div>
+      </section>
+
       <section>TAB 2</section>
+
       <section>TAB 3</section>
     </main>
   </div>
@@ -55,6 +57,8 @@ export default defineComponent({
 @import '@/assets/css/variable.scss';
 
 .document-editor {
+  position: relative;
+
   .tab-bar {
     display: flex;
     flex-direction: row;
@@ -81,15 +85,6 @@ export default defineComponent({
         border-bottom: none;
       }
     }
-
-    .right {
-      .editor-toolbar {
-        .btn {
-          border: none;
-          font-weight: bold;
-        }
-      }
-    }
   }
 
   main {
@@ -104,10 +99,34 @@ export default defineComponent({
     section.active {
       display: inline;
     }
+
+    .editor {
+      .editor-toolbar {
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        text-align: right;
+
+        .btn {
+          border: none;
+          font-weight: bold;
+        }
+      }
+    }
   }
 }
 
 @media screen and (max-width: $max-table-width) {
-  
+  .document-editor {
+    main {
+      .editor {
+        .editor-toolbar {
+          position: unset;
+          margin-right: 10px;
+        }
+      }
+    }
+  }
 }
 </style>
