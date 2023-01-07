@@ -26,11 +26,14 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/css/variable.scss';
+
 .controller {
   .btn {
     float: left;
     margin: 0;
     padding: 7px;
+    color: $input-secondary;
   }
 }
 </style>

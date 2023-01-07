@@ -156,6 +156,7 @@ export default defineComponent({
           margin-bottom: 20px;
           background-color: black;
           border-radius: 20px;
+          z-index: 11;
         }
 
         .tooltip::after {
