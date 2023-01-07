@@ -134,6 +134,9 @@ export default defineComponent({
         min-height: 500px;
         resize: vertical;
         border: 1px solid $light-light;
+
+        font-family: D2Coding monospace;
+        font-size: 16px;
       }
 
       textarea:focus-visible {
