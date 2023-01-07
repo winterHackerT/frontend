@@ -196,6 +196,8 @@ export default defineComponent({
 
   font-size: 16px;
 
+  z-index: 10;
+
   .wrap {
     width: 100%;
     max-width: $max-desktop-width;
