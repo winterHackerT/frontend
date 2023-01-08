@@ -25,7 +25,7 @@ export const setState = (name: string, value: string) => {
 export const getters = {
   hello: (_state: RootState) => getState('hello'),
   title: (_state: RootState) => getState('title', 'Hack WIKI'),
-  api: (_state: RootState) => 'http://localhost:8081',
+  api: (_state: RootState) => '/api',
 }
 
 export const mutations = mutationTree(state, {
