@@ -3,8 +3,8 @@
     <document-title
       v-if="!isFetchError"
       :document-title="documentTitle"
-      :edit-time="`${documentData.datetime.substring(0, 10)} ${documentData.datetime.substring(11, 19)}`"
-      :page-name="`${documentVersion}`"
+      :edit-time="documentData.datetime"
+      :page-name="documentVersion"
     >
       <div v-if="!isFetchError">
         <li v-if="!isNotFound">
@@ -112,6 +112,7 @@ export default defineComponent({
 
           if (response.data.success) {
             this.documentData = response.data.data;
+            this.documentData.datetime = `${this.documentData.datetime.substring(0, 10)} ${this.documentData.datetime.substring(11, 19)}`;
             this.isNotFound = false;
           } else {
             this.isNotFound = true;
