@@ -234,7 +234,6 @@ export default defineComponent({
     },
     toggleDarkmode() {
       this.$accessor.setDarkmode(this.isDarkmode ? 'false' : 'true');
-      // this.$router.push(this.$route.fullPath);
       window.location.reload();
     },
   },
