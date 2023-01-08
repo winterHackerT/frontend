@@ -45,7 +45,7 @@
 
       <div class="right">
         <div id="search-bar">
-          <NuxtLink to="#" class="btn"><i class="bi bi-shuffle"></i></NuxtLink>
+          <a href="#" class="btn"><i class="bi bi-shuffle"></i></a>
 
           <input
             id="search-input"
@@ -55,8 +55,8 @@
             @keydown.enter="moveDocument(searchInput)"
           />
 
-          <NuxtLink to="#" class="btn"><i class="bi bi-search"></i></NuxtLink>
-          <NuxtLink to="#" class="btn"><i class="bi bi-arrow-right"></i></NuxtLink>
+          <a href="#" class="btn" @click="fetchSearch()"><i class="bi bi-search"></i></a>
+          <a href="#" class="btn" @click="moveDocument(searchInput)"><i class="bi bi-arrow-right"></i></a>
 
           <div v-if="searchInput.length > 0 && searchResult.length > 0" class="sub search-result">
             <li v-for="item, index in searchResult" :key="index" @click="clearSearchResult()">
