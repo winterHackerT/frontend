@@ -81,7 +81,7 @@
             <li><NuxtLink to="#">내 문서 기여 목록</NuxtLink></li>
             <li><NuxtLink to="#">내 토론 기여 목록</NuxtLink></li>
             <li class="divider"></li>
-            <li><NuxtLink to="#">로그인</NuxtLink></li>
+            <li><NuxtLink to="/member/login">로그인</NuxtLink></li>
           </div>
         </div>
       </div>
