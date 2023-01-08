@@ -112,6 +112,7 @@ export default defineComponent({
 
           if (response.data.success) {
             this.documentData = response.data.data;
+            this.documentTitle = this.documentData.title;
             this.documentData.datetime = `${this.documentData.datetime.substring(0, 10)} ${this.documentData.datetime.substring(11, 19)}`;
             this.isNotFound = false;
           } else {
