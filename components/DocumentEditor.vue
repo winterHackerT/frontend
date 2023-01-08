@@ -21,7 +21,9 @@
           <button class="btn">틀</button>
         </div>
 
-        <div>TAB 1</div>
+        <div>
+          <HighlightSourceCodeEditor :value="value" @change="change" />
+        </div>
       </section>
 
       <section class="raw-editor">
@@ -144,7 +146,7 @@ export default defineComponent({
         border: 1px solid $light-light;
 
         font-family: D2Coding monospace;
-        font-size: 16px;
+        font-size: 18px;
       }
 
       textarea:focus-visible {
