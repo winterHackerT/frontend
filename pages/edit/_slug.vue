@@ -5,7 +5,7 @@
       page-name="문서 편집"
     >
       <li><NuxtLink :to="`/backlink/${documentTitle}`" class="btn">역링크</NuxtLink></li>
-      <li><NuxtLink to="#" class="btn danger">삭제</NuxtLink></li>
+      <li><a href="#" class="btn danger" @click="removeDocument()">삭제</a></li>
       <li><NuxtLink to="#" class="btn">이동</NuxtLink></li>
     </document-title>
 
@@ -122,6 +122,24 @@ export default defineComponent({
           alert("문서 저장 과정에서 오류가 발생했습니다!");
           console.error(error);
         });
+    },
+    removeDocument() {
+      if (confirm('정말 해당 문서를 삭제 하시겠습니까?')) {
+        axios
+          .delete(this.$accessor.api + '/docs/' + this.documentTitle)
+          .then(response => {
+            if (response.data.success) {
+              alert('문서가 삭제 되었습니다');
+              this.$router.push(`/w/${this.documentTitle}`);
+            } else {
+              alert(response.data.message);
+            }
+          })
+          .catch(error => {
+            alert('오류가 발생했습니다!');
+            console.error(error);
+          })
+      }
     }
   }
 })
