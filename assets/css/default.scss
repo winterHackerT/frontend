@@ -25,6 +25,14 @@ a {
   text-decoration: blink;
 }
 
+.darkmode {
+  filter: invert(1);
+
+  img {
+    filter: invert(1);
+  }
+}
+
 .btn,
 input,
 select {

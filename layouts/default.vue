@@ -1,21 +1,23 @@
 <template>
-  <div id="layout">
-    <GlobalNavigationBar />
+  <div>
+    <div id="layout" :class="{darkmode: isDarkmode}">
+      <GlobalNavigationBar />
 
-    <main>
-      <content>
-        <Nuxt />
-      </content>
+      <main>
+        <content>
+          <Nuxt />
+        </content>
 
-      <aside>
-        <ListBox title="최근 변경" :items="recentChanges" more-link="/recentChanges" />
-        <ListBox title="최근 게시물" :items="recentPosts" />
-      </aside>
-    </main>
+        <aside>
+          <ListBox title="최근 변경" :items="recentChanges" more-link="/recentChanges" />
+          <ListBox title="최근 게시물" :items="recentPosts" />
+        </aside>
+      </main>
 
-    <GlobalFooter />
+      <GlobalFooter />
+    </div>
 
-    <div id="global-help-btn">
+    <div id="global-help-btn" :class="{darkmode: isDarkmode}">
       <button class="btn">
         <i class="bi bi-gear-wide-connected"></i>
       </button>
@@ -49,6 +51,11 @@ export default defineComponent({
     return {
       recentChanges: [] as SideListItem[],
       recentPosts: [] as SideListItem[],
+    }
+  },
+  computed: {
+    isDarkmode() {
+      return this.$accessor.darkmode === 'true';
     }
   },
   created() {

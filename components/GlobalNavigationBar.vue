@@ -66,7 +66,7 @@
 
             <li class="divider"></li>
             <li><NuxtLink to="#">설정</NuxtLink></li>
-            <li><NuxtLink to="#">다크 테마로</NuxtLink></li>
+            <li><a href="#" @click="toggleDarkmode()">{{ isDarkmode ? '라이트 모드로' : '다크 테마로' }}</a></li>
             <li class="divider"></li>
             <li><NuxtLink to="#">내 문서 기여 목록</NuxtLink></li>
             <li><NuxtLink to="#">내 토론 기여 목록</NuxtLink></li>
@@ -171,6 +171,11 @@ export default defineComponent({
       isUserVisble: false,
     }
   },
+  computed: {
+    isDarkmode() {
+      return this.$accessor.darkmode === 'true';
+    }
+  },
   methods: {
     toggle(index: number) {
       const current = this.navItems[index].isSubVisible
@@ -178,6 +183,11 @@ export default defineComponent({
     },
     toggleUser() {
       this.isUserVisble = !this.isUserVisble
+    },
+    toggleDarkmode() {
+      this.$accessor.setDarkmode(this.isDarkmode ? 'false' : 'true');
+      // this.$router.push(this.$route.fullPath);
+      window.location.reload();
     },
   },
 })

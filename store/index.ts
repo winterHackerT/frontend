@@ -25,12 +25,14 @@ export const setState = (name: string, value: string) => {
 export const getters = {
   hello: (_state: RootState) => getState('hello'),
   title: (_state: RootState) => getState('title', 'Hack WIKI'),
+  darkmode: (_state: RootState) => getState('darkmode', 'false'),
   api: (_state: RootState) => 'http://localhost:8081',
 }
 
 export const mutations = mutationTree(state, {
   setHello: (_state, newValue: string) => setState('hello', newValue),
   setTitle: (_state, newValue: string) => setState('title', newValue),
+  setDarkmode: (_state, newValue: string) => setState('darkmode', newValue),
 })
 
 export const actions = actionTree({ state, getters, mutations }, {})
