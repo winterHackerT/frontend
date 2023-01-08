@@ -2,7 +2,7 @@
   <div>
     <document-title :document-title="documentTitle" page-name="역링크">
       <li><NuxtLink :to="`/history/${documentTitle}`" class="btn">역사</NuxtLink></li>
-      <li><NuxtLink to="#" class="btn">편집</NuxtLink></li>
+      <li><NuxtLink :to="`/edit/${documentTitle}`" class="btn">편집</NuxtLink></li>
     </document-title>
 
     <fieldset id="namespaceChoiceBox">

@@ -5,7 +5,7 @@
       page-name="문서 역사"
     >
 
-      <li><NuxtLink to="#" class="btn">편집</NuxtLink></li>
+      <li><NuxtLink :to="`/edit/${documentTitle}`" class="btn">편집</NuxtLink></li>
       <li>
         <NuxtLink :to="`/backlink/${documentTitle}`" class="btn">역링크</NuxtLink>
       </li>
