@@ -28,7 +28,7 @@
         </p>
 
         <p>
-          <span class="ip-warn">비로그인 상태로 편집합니다. 편집 역사에 IP(0.0.0.0)가 영구히 기록됩니다.</span>
+          <span class="ip-warn">비로그인 상태로 편집합니다. 편집 역사에 IP({{ addr }})가 영구히 기록됩니다.</span>
         </p>
       </div>
 
@@ -67,13 +67,20 @@ export default defineComponent({
       documentData: {} as DocumentData,
       content: '',
       message: '문서 편집',
+      addr: '127.0.0.1',
       isFetchError: true,
     }
   },
   created() {
+    this.fetchAddr();
     this.fetchDocument();
   },
   methods: {
+    fetchAddr() {
+      axios
+        .get(this.$accessor.api + '/addr')
+        .then(response => (this.addr = response.data));
+    },
     fetchDocument() {
       axios
         .get(this.$accessor.api + '/docs/' + this.documentTitle)
