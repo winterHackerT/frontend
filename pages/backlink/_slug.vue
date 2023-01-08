@@ -47,57 +47,65 @@
 </template>
 
 <script lang="ts">
+import axios from 'axios';
 import { defineComponent } from 'vue'
-import Controller from '../../components/Controller.vue';
+
+interface BackLinkData {
+  char: string,
+  list: string[]
+}
+
 export default defineComponent({
-  components: { Controller },
   setup() {
     return {}
   },
   data() {
     return {
       documentTitle: this.$route.params.slug as any,
-      backlinks: [
-        '전자',
-        '정부',
-        '프레임워크',
-        'JAVA',
-        'Spring',
-        'Boot'
-      ],
-      backLinkDataList: [
-        {
-          char: 'a',
-          list: ['']
-        }
-      ]
+      backlinks: [] as string[],
+      backLinkDataList: [] as BackLinkData[]
     }
   },
   mounted() {
-    this.backLinkDataList = [];
-    if (this.backlinks.length === 0) return;
-
-    this.backlinks.sort();
-
-    let char = this.charFirst(this.backlinks[0][0]);
-    let list: string[] = [];
-
-    for (const word of this.backlinks) {
-      const currentChar = this.charFirst(word[0]);
-
-      if (char !== currentChar) {
-        this.backLinkDataList.push({char, list});
-
-        char = currentChar;
-        list = [];
-      }
-
-      list.push(word);
-    }
-
-    this.backLinkDataList.push({char, list});
+    this.fetchBacklink();
   },
   methods: {
+    fetchBacklink() {
+      axios
+        .get(this.$accessor.api + '/docs/backlink/' + this.documentTitle)
+        .then(response => {
+          if (response.data.success) {
+            this.backlinks = response.data.data;
+            this.convertByFirstChar();
+          }
+        })
+        .catch(error => console.error(error))
+    },
+    convertByFirstChar() {
+      console.log(this.backlinks);
+      this.backLinkDataList = [];
+      if (this.backlinks.length === 0) return;
+
+      this.backlinks.sort();
+
+      let char = this.charFirst(this.backlinks[0][0]);
+      let list: string[] = [];
+
+      for (const word of this.backlinks) {
+        const currentChar = this.charFirst(word[0]);
+
+        if (char !== currentChar) {
+          this.backLinkDataList.push({char, list});
+
+          char = currentChar;
+          list = [];
+        }
+
+        list.push(word);
+      }
+
+      this.backLinkDataList.push({char, list});
+    },
     charFirst(str: string) {
       // https://zetawiki.com/wiki/UTF-8_%ED%95%9C%EA%B8%80_%EC%B4%88%EC%84%B1_%EC%B6%94%EC%B6%9C_(%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8)
       
@@ -171,6 +179,7 @@ export default defineComponent({
 .indexContainter {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  margin-bottom: 30px;
 
   > div {
     > h3 {
