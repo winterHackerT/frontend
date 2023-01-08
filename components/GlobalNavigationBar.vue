@@ -162,7 +162,7 @@ export default defineComponent({
             {
               title: '라이선스',
               icon: 'bi-bookmark-fill',
-              link: '#',
+              link: '/license',
             },
           ],
           isSubVisible: false,
