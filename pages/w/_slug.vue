@@ -3,7 +3,7 @@
     <document-title
       v-if="!isFetchError"
       :document-title="documentTitle"
-      :edit-time="documentData.datetime"
+      :edit-time="`${documentData.datetime.substring(0, 10)} ${documentData.datetime.substring(11, 19)}`"
       :page-name="`${documentVersion}`"
     >
       <div v-if="!isFetchError">
