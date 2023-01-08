@@ -34,7 +34,7 @@
         <h3>{{ data.char }}</h3>
         <ul>
           <li v-for="(content, index) in data.list" :key="index">
-            <nuxt-link :to="content">{{ content }}</nuxt-link> ({{
+            <nuxt-link :to="`/w/${content}`">{{ content }}</nuxt-link> ({{
               content
             }})
           </li>
