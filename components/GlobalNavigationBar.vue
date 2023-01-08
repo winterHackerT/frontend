@@ -45,7 +45,7 @@
 
       <div class="right">
         <div id="search-bar">
-          <a href="#" class="btn"><i class="bi bi-shuffle"></i></a>
+          <a href="#" class="btn" @click="moveRandomDocument()"><i class="bi bi-shuffle"></i></a>
 
           <input
             id="search-input"
@@ -224,6 +224,14 @@ export default defineComponent({
     moveDocument(title: string) {
       if (title === '') return;
       this.$router.push(`/w/${title}`);
+    },
+    async moveRandomDocument() {
+      const response = await axios.get(this.$accessor.api + '/docs/random');
+
+      if (response.data.success) {
+        const data = response.data.data;
+        this.$router.push(`/w/${data[0]}`);
+      }
     },
     toggle(index: number) {
       const current = this.navItems[index].isSubVisible
