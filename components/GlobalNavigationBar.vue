@@ -223,6 +223,8 @@ export default defineComponent({
     },
     moveDocument(title: string) {
       if (title === '') return;
+
+      this.clearSearchResult();
       this.$router.push(`/w/${title}`);
     },
     async moveRandomDocument() {
@@ -230,7 +232,7 @@ export default defineComponent({
 
       if (response.data.success) {
         const data = response.data.data;
-        this.$router.push(`/w/${data[0]}`);
+        this.moveDocument(data[0]);
       }
     },
     toggle(index: number) {
@@ -502,6 +504,13 @@ export default defineComponent({
 
           .sub {
             width: 180px;
+          }
+        }
+        
+        #search-bar {
+          .search-result {
+            width: fit-content;
+            margin-top: 50px;
           }
         }
       }
