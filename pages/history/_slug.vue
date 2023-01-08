@@ -22,8 +22,8 @@
         <span class="datetime">{{item.datetime}}</span>
         <span class="links">
           (
-            <NuxtLink :to="`/w/${documentTitle}?rev=${item.order}`">보기</NuxtLink>
-            | <NuxtLink :to="`/raw/${documentTitle}?rev=${item.order}`">RAW</NuxtLink>
+            <NuxtLink :to="`/w/${documentTitle}?rev=${item.order}&id=${item.id}`">보기</NuxtLink>
+            | <NuxtLink :to="`/raw/${documentTitle}?rev=${item.order}&id=${item.id}`">RAW</NuxtLink>
             | <NuxtLink to="#">Blame</NuxtLink>
             | <NuxtLink to="#">이 리비전으로 되돌리기</NuxtLink>
             | <NuxtLink to="#">비교</NuxtLink>

@@ -12,14 +12,13 @@
       </li>
     </document-title>
 
-    <textarea id="rawDataField" disabled readonly>
-      {{ rawData }}
-    </textarea>
+    <textarea id="rawDataField" v-model="rawData" disabled readonly></textarea>
 
   </div>
 </template>
 
 <script lang="ts">
+import axios from 'axios'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -30,9 +29,25 @@ export default defineComponent({
     return {
       documentTitle: this.$route.params.slug as any,
       documentVersion: this.$route.query?.rev as any,
-      rawData: `data`,
+      documentId: this.$route.query?.id as any,
+      rawData: '',
     }
   },
+  mounted() {
+    this.fetchDocument();
+  },
+  methods: {
+    fetchDocument() {
+      axios
+        .get(this.$accessor.api + '/docs/id/' + this.documentId)
+        .then(response => {
+          if (response.data.success) {
+            this.rawData = response.data.data.content;
+          }
+        })
+        .catch(error => console.error(error))
+    }
+  }
 })
 </script>
 

@@ -95,18 +95,29 @@ export default defineComponent({
       documentHistory: [] as DocumentHistroy[],
       documentData: {} as DocumentData,
       documentVersion: this.$route.query?.rev ? `r${this.$route.query?.rev} 판` : '',
+      documentId: this.$route.query?.id as any,
       isNotFound: true,
       isFetchError: true,
     }
   },
   created() {
+    console.log(this.documentId);
+
     this.fetchDocument(this.documentTitle);
     this.fetchDocumentHistory(this.documentTitle);
   },
   methods: {
     fetchDocument(documentTitle: String) {
+      let url = this.$accessor.api;
+
+      if (this.documentId !== undefined) {
+        url += '/docs/id/' + this.documentId;
+      } else {
+        url += "/docs/" + documentTitle;
+      }
+
       axios
-        .get(this.$accessor.api + "/docs/" + documentTitle)
+        .get(url)
         .then(response => {
           this.isFetchError = false;
 
