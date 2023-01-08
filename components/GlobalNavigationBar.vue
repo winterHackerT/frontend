@@ -47,10 +47,22 @@
         <div id="search-bar">
           <NuxtLink to="#" class="btn"><i class="bi bi-shuffle"></i></NuxtLink>
 
-          <input id="search-input" type="text" placeholder="Search" />
+          <input
+            id="search-input"
+            v-model="searchInput"
+            type="text"
+            placeholder="Search"
+            @keydown.enter="moveDocument(searchInput)"
+          />
 
           <NuxtLink to="#" class="btn"><i class="bi bi-search"></i></NuxtLink>
           <NuxtLink to="#" class="btn"><i class="bi bi-arrow-right"></i></NuxtLink>
+
+          <div v-if="searchInput.length > 0 && searchResult.length > 0" class="sub search-result">
+            <li v-for="item, index in searchResult" :key="index" @click="clearSearchResult()">
+              <NuxtLink :to="`/w/${item}`">{{ item }}</NuxtLink>
+            </li>
+          </div>
         </div>
 
         <div to="#" class="user-btn" @click.self="toggleUser()">
@@ -58,7 +70,7 @@
 
           <div v-if="isUserVisble" class="sub">
             <div class="info">
-              <p class="addr"><b>127.0.0.1</b></p>
+              <p class="addr"><b>{{ addr }}</b></p>
               <p>Please login!</p>
             </div>
 
@@ -78,6 +90,7 @@
 </template>
 
 <script lang="ts">
+import axios from 'axios';
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -86,6 +99,9 @@ export default defineComponent({
   },
   data() {
     return {
+      addr: '127.0.0.1',
+      searchInput: '',
+      searchResult: [] as string[],
       navItems: [
         {
           title: '최근 변경',
@@ -174,7 +190,41 @@ export default defineComponent({
       return this.$accessor.darkmode === 'true';
     }
   },
+  watch: {
+    searchInput() {
+      this.fetchSearch();
+    }
+  },
+  mounted() {
+    this.fetchAddr();
+  },
   methods: {
+    fetchAddr() {
+      axios
+        .get(this.$accessor.api + '/addr')
+        .then(response => {
+          this.addr = response.data;
+        });
+    },
+    fetchSearch() {
+      if (this.searchInput === '') return;
+
+      axios
+        .get(this.$accessor.api + '/docs/search/' + this.searchInput)
+        .then(response => {
+          if (response.data.success) {
+            this.searchResult = response.data.data;
+          }
+        });
+    },
+    clearSearchResult() {
+      this.searchInput = '';
+      this.searchResult = [];
+    },
+    moveDocument(title: string) {
+      if (title === '') return;
+      this.$router.push(`/w/${title}`);
+    },
     toggle(index: number) {
       const current = this.navItems[index].isSubVisible
       this.navItems[index].isSubVisible = !current
@@ -301,6 +351,16 @@ export default defineComponent({
         left: 100%;
         bottom: 10px;
         margin-left: -30px;
+      }
+
+      .sub.search-result {
+        width: 222px;
+        margin-left: 38px;
+        padding: 0 !important;
+      }
+
+      .sub.search-result::before {
+        border: none;
       }
 
       nav {
