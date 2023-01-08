@@ -1,6 +1,6 @@
 <template>
   <div id="document-title">
-    <section id="title">
+    <section id="title" :class="{isNav: $slots.default}">
       <div class="top">
         <NuxtLink :to="`/w/${documentTitle}`">
           <h1>
@@ -8,7 +8,8 @@
             <small v-if="pageName != ''"> ({{ pageName }})</small>
           </h1>
         </NuxtLink>
-        <nav>
+
+        <nav v-if="$slots.default">
           <ul>
             <slot></slot>
           </ul>
@@ -140,8 +141,6 @@
 @media screen and (max-width: $max-table-width) {
   #document-title {
     #title {
-      padding-top: 30px;
-
       .top {
         nav {
           width: 100%;
@@ -155,6 +154,10 @@
           justify-content: flex-end;
         }
       }
+    }
+
+    #title.isNav {
+      padding-top: 30px;
     }
   }
 }

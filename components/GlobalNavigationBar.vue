@@ -91,7 +91,7 @@ export default defineComponent({
       navItems: [
         {
           title: '최근 변경',
-          link: '#',
+          link: '/recentChanges',
           icon: 'bi-compass-fill',
         },
         {
