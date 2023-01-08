@@ -50,9 +50,7 @@
           <input id="search-input" type="text" placeholder="Search" />
 
           <NuxtLink to="#" class="btn"><i class="bi bi-search"></i></NuxtLink>
-          <NuxtLink to="#" class="btn"
-            ><i class="bi bi-arrow-right"></i
-          ></NuxtLink>
+          <NuxtLink to="#" class="btn"><i class="bi bi-arrow-right"></i></NuxtLink>
         </div>
 
         <div to="#" class="user-btn" @click.self="toggleUser()">
