@@ -145,8 +145,8 @@ export default defineComponent({
 
       select {
         min-width: 140px;
-        height: 25px;
-        padding-left: 5px;
+        padding: 3px 5px;
+        margin: 0 5px;
       }
     }
     > .submitBtn {
