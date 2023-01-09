@@ -1,6 +1,6 @@
 <template>
   <div id="document-title">
-    <section id="title">
+    <section id="title" :class="{isNav: $slots.default}">
       <div class="top">
         <NuxtLink :to="`/w/${documentTitle}`">
           <h1>
@@ -8,7 +8,8 @@
             <small v-if="pageName != ''"> ({{ pageName }})</small>
           </h1>
         </NuxtLink>
-        <nav>
+
+        <nav v-if="$slots.default">
           <ul>
             <slot></slot>
           </ul>
@@ -17,7 +18,7 @@
       <span v-if="editTime != '' && !documentVersion" id="last-modified-datetime">
               최근 수정 시간: {{ editTime }}
           </span>
-      <div class="noticeBox" v-if="documentVersion" :id="documentVersion?'prevVer':''">
+      <div class="noticeBox" v-if="isNodeBoxVisible" :id="documentVersion?'prevVer':''">
         <b>[주의!]</b> 문서의 이전 버전({{ editTime }}에 수정)을 보고 있습니다.<NuxtLink :to="`/w/${documentTitle}`">최신 버전으로 이동</NuxtLink>
       </div>
     </section>
@@ -48,9 +49,13 @@
     },
     data(){
       return{
-        documentVersion: this.$route.query?.rev
+        documentVersion: this.$route.query?.rev,
+        isNodeBoxVisible: false
       }
-    }
+    },
+    mounted() {
+      this.isNodeBoxVisible = this.documentVersion !== undefined && this.$router.currentRoute.path.includes('/w/');
+    },
   })
 </script>
 
@@ -140,8 +145,6 @@
 @media screen and (max-width: $max-table-width) {
   #document-title {
     #title {
-      padding-top: 30px;
-
       .top {
         nav {
           width: 100%;
@@ -155,6 +158,10 @@
           justify-content: flex-end;
         }
       }
+    }
+
+    #title.isNav {
+      padding-top: 30px;
     }
   }
 }

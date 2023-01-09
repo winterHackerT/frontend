@@ -151,5 +151,9 @@ export default defineComponent({
     color: $link-primary;
     text-decoration: blink;
   }
+
+  img {
+    max-width: 100%;
+  }
 }
 </style>

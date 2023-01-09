@@ -4,7 +4,7 @@
       v-if="!isFetchError"
       :document-title="documentTitle"
       :edit-time="documentData.datetime"
-      :page-name="`${documentVersion}`"
+      :page-name="documentVersion"
     >
       <div v-if="!isFetchError">
         <li v-if="!isNotFound">
@@ -95,6 +95,7 @@ export default defineComponent({
       documentHistory: [] as DocumentHistroy[],
       documentData: {} as DocumentData,
       documentVersion: this.$route.query?.rev ? `r${this.$route.query?.rev} 판` : '',
+      documentId: this.$route.query?.id as any,
       isNotFound: true,
       isFetchError: true,
     }
@@ -105,13 +106,23 @@ export default defineComponent({
   },
   methods: {
     fetchDocument(documentTitle: String) {
+      let url = this.$accessor.api;
+
+      if (this.documentId !== undefined) {
+        url += '/docs/id/' + this.documentId;
+      } else {
+        url += "/docs/" + documentTitle;
+      }
+
       axios
-        .get(this.$accessor.api + "/docs/" + documentTitle)
+        .get(url)
         .then(response => {
           this.isFetchError = false;
 
           if (response.data.success) {
             this.documentData = response.data.data;
+            this.documentTitle = this.documentData.title;
+            this.documentData.datetime = `${this.documentData.datetime.substring(0, 10)} ${this.documentData.datetime.substring(11, 19)}`;
             this.isNotFound = false;
           } else {
             this.isNotFound = true;

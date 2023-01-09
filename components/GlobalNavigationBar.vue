@@ -45,14 +45,24 @@
 
       <div class="right">
         <div id="search-bar">
-          <NuxtLink to="#" class="btn"><i class="bi bi-shuffle"></i></NuxtLink>
+          <a href="#" class="btn" @click="moveRandomDocument()"><i class="bi bi-shuffle"></i></a>
 
-          <input id="search-input" type="text" placeholder="Search" />
+          <input
+            id="search-input"
+            v-model="searchInput"
+            type="text"
+            placeholder="Search"
+            @keydown.enter="moveDocument(searchInput)"
+          />
 
-          <NuxtLink to="#" class="btn"><i class="bi bi-search"></i></NuxtLink>
-          <NuxtLink to="#" class="btn"
-            ><i class="bi bi-arrow-right"></i
-          ></NuxtLink>
+          <a href="#" class="btn" @click="fetchSearch()"><i class="bi bi-search"></i></a>
+          <a href="#" class="btn" @click="moveDocument(searchInput)"><i class="bi bi-arrow-right"></i></a>
+
+          <div v-if="searchInput.length > 0 && searchResult.length > 0" class="sub search-result">
+            <li v-for="item, index in searchResult" :key="index" @click="clearSearchResult()">
+              <NuxtLink :to="`/w/${item}`">{{ item }}</NuxtLink>
+            </li>
+          </div>
         </div>
 
         <div to="#" class="user-btn" @click.self="toggleUser()">
@@ -60,18 +70,18 @@
 
           <div v-if="isUserVisble" class="sub">
             <div class="info">
-              <p class="addr"><b>127.0.0.1</b></p>
+              <p class="addr"><b>{{ addr }}</b></p>
               <p>Please login!</p>
             </div>
 
             <li class="divider"></li>
             <li><NuxtLink to="#">설정</NuxtLink></li>
-            <li><NuxtLink to="#">다크 테마로</NuxtLink></li>
+            <li><a href="#" @click="toggleDarkmode()">{{ isDarkmode ? '라이트 모드로' : '다크 테마로' }}</a></li>
             <li class="divider"></li>
             <li><NuxtLink to="#">내 문서 기여 목록</NuxtLink></li>
             <li><NuxtLink to="#">내 토론 기여 목록</NuxtLink></li>
             <li class="divider"></li>
-            <li><NuxtLink to="#">로그인</NuxtLink></li>
+            <li><NuxtLink to="/member/login">로그인</NuxtLink></li>
           </div>
         </div>
       </div>
@@ -80,6 +90,7 @@
 </template>
 
 <script lang="ts">
+import axios from 'axios';
 import { defineComponent } from 'vue'
 
 export default defineComponent({
@@ -88,10 +99,13 @@ export default defineComponent({
   },
   data() {
     return {
+      addr: '127.0.0.1',
+      searchInput: '',
+      searchResult: [] as string[],
       navItems: [
         {
           title: '최근 변경',
-          link: '#',
+          link: '/recentChanges',
           icon: 'bi-compass-fill',
         },
         {
@@ -162,7 +176,7 @@ export default defineComponent({
             {
               title: '라이선스',
               icon: 'bi-bookmark-fill',
-              link: '#',
+              link: '/license',
             },
           ],
           isSubVisible: false,
@@ -171,13 +185,66 @@ export default defineComponent({
       isUserVisble: false,
     }
   },
+  computed: {
+    isDarkmode() {
+      return this.$accessor.darkmode === 'true';
+    }
+  },
+  watch: {
+    searchInput() {
+      this.fetchSearch();
+    }
+  },
+  mounted() {
+    this.fetchAddr();
+  },
   methods: {
+    fetchAddr() {
+      axios
+        .get(this.$accessor.api + '/addr')
+        .then(response => {
+          this.addr = response.data;
+        });
+    },
+    fetchSearch() {
+      if (this.searchInput === '') return;
+
+      axios
+        .get(this.$accessor.api + '/docs/search/' + this.searchInput)
+        .then(response => {
+          if (response.data.success) {
+            this.searchResult = response.data.data;
+          }
+        });
+    },
+    clearSearchResult() {
+      this.searchInput = '';
+      this.searchResult = [];
+    },
+    moveDocument(title: string) {
+      if (title === '') return;
+
+      this.clearSearchResult();
+      this.$router.push(`/w/${title}`);
+    },
+    async moveRandomDocument() {
+      const response = await axios.get(this.$accessor.api + '/docs/random');
+
+      if (response.data.success) {
+        const data = response.data.data;
+        this.moveDocument(data[0]);
+      }
+    },
     toggle(index: number) {
       const current = this.navItems[index].isSubVisible
       this.navItems[index].isSubVisible = !current
     },
     toggleUser() {
       this.isUserVisble = !this.isUserVisble
+    },
+    toggleDarkmode() {
+      this.$accessor.setDarkmode(this.isDarkmode ? 'false' : 'true');
+      window.location.reload();
     },
   },
 })
@@ -293,6 +360,16 @@ export default defineComponent({
         left: 100%;
         bottom: 10px;
         margin-left: -30px;
+      }
+
+      .sub.search-result {
+        width: 222px;
+        margin-left: 38px;
+        padding: 0 !important;
+      }
+
+      .sub.search-result::before {
+        border: none;
       }
 
       nav {
@@ -427,6 +504,13 @@ export default defineComponent({
 
           .sub {
             width: 180px;
+          }
+        }
+        
+        #search-bar {
+          .search-result {
+            width: fit-content;
+            margin-top: 50px;
           }
         }
       }

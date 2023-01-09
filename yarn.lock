@@ -8775,6 +8775,11 @@ terser@^5.3.4:
     commander "^2.20.0"
     source-map-support "~0.5.20"
 
+text-diff@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/text-diff/-/text-diff-1.0.1.tgz#6c105905435e337857375c9d2f6ca63e453ff565"
+  integrity sha512-jAnlP3ggZk7FeLX1awaMR8Y2sMyil9P9FXvNjaIJIQBAom1zvpKGGH31htOVrUFp0vlyygmJJpNrbJ4rfjsxrA==
+
 text-table@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"

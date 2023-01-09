@@ -1,21 +1,23 @@
 <template>
-  <div id="layout">
-    <GlobalNavigationBar />
+  <div>
+    <div id="layout" :class="{darkmode: isDarkmode}">
+      <GlobalNavigationBar />
 
-    <main>
-      <content>
-        <Nuxt />
-      </content>
+      <main>
+        <content>
+          <Nuxt />
+        </content>
 
-      <aside>
-        <ListBox title="최근 변경" :items="recentChanges" />
-        <ListBox title="최근 게시물" :items="recentPosts" />
-      </aside>
-    </main>
+        <aside>
+          <ListBox title="최근 변경" :items="recentChanges" more-link="/recentChanges" />
+          <ListBox title="최근 게시물" :items="recentPosts" />
+        </aside>
+      </main>
 
-    <GlobalFooter />
+      <GlobalFooter />
+    </div>
 
-    <div id="global-help-btn">
+    <div id="global-help-btn" :class="{darkmode: isDarkmode}">
       <button class="btn">
         <i class="bi bi-gear-wide-connected"></i>
       </button>
@@ -51,8 +53,16 @@ export default defineComponent({
       recentPosts: [] as SideListItem[],
     }
   },
+  computed: {
+    isDarkmode() {
+      return this.$accessor.darkmode === 'true';
+    }
+  },
   created() {
     this.fetchRecentChanges();
+  },
+  mounted() {
+    window.scrollTo(0, 0);
   },
   methods: {
     scrollVerticalTo(position: number) {
@@ -66,7 +76,7 @@ export default defineComponent({
           
           this.recentChanges = [];
 
-          for (const item of data) {
+          for (const item of data.slice(0, 15)) {
             this.recentChanges.push({
               title: item.title as string,
               link: `/w/${item.title}`,
