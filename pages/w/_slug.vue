@@ -101,8 +101,6 @@ export default defineComponent({
     }
   },
   created() {
-    console.log(this.documentId);
-
     this.fetchDocument(this.documentTitle);
     this.fetchDocumentHistory(this.documentTitle);
   },

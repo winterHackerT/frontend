@@ -18,7 +18,7 @@
       <span v-if="editTime != '' && !documentVersion" id="last-modified-datetime">
               최근 수정 시간: {{ editTime }}
           </span>
-      <div class="noticeBox" v-if="documentVersion" :id="documentVersion?'prevVer':''">
+      <div class="noticeBox" v-if="isNodeBoxVisible" :id="documentVersion?'prevVer':''">
         <b>[주의!]</b> 문서의 이전 버전({{ editTime }}에 수정)을 보고 있습니다.<NuxtLink :to="`/w/${documentTitle}`">최신 버전으로 이동</NuxtLink>
       </div>
     </section>
@@ -49,9 +49,13 @@
     },
     data(){
       return{
-        documentVersion: this.$route.query?.rev
+        documentVersion: this.$route.query?.rev,
+        isNodeBoxVisible: false
       }
-    }
+    },
+    mounted() {
+      this.isNodeBoxVisible = this.documentVersion !== undefined && this.$router.currentRoute.path.includes('/w/');
+    },
   })
 </script>
 

@@ -12,7 +12,7 @@
     </document-title>
 
     <div class="compare-btn">
-      <button class="btn">선택 리비전 비교</button>
+      <button class="btn" @click="diffCheck()">선택 리비전 비교</button>
     </div>
 
     <controller />
@@ -30,8 +30,9 @@
           )
         </span>
 
-        <input type="radio">
-        <input type="radio"/>
+        <input v-model="leftPicked" :value="item.id" type="radio" />
+        <input v-model="rightPicked" :value="item.id" type="radio" />
+
         <span clsas="order"><b>r{{ item.order }}</b></span>
         <span class="diff" :class="{positive: item.diff > 0, negative: item.diff < 0}">({{ item.diff > 0 ? "+" : "" }}{{ item.diff }})</span>
         <NuxtLink class="user" to="#">{{ item.username != null ? item.username : item.addr }}</Nuxtlink>
@@ -68,6 +69,8 @@ export default defineComponent({
       documentTitle: this.$route.params.slug as any,
       documentHistory: [] as DocumentHistroy[],
       isFetchError: false,
+      leftPicked: '',
+      rightPicked: '',
     }
   },
   created() {
@@ -100,6 +103,17 @@ export default defineComponent({
         const prevLength = this.documentHistory[index + 1].length as number;
         return currentLenght - prevLength;
       }
+    },
+    diffCheck() {
+      if (this.leftPicked === '' || this.rightPicked === '') {
+        alert('버전을 선택해 주세요');
+        return;
+      } else if (this.leftPicked === this.rightPicked) {
+        alert('서로 다른 버전을 선택해 주세요');
+        return;
+      }
+
+      this.$router.push(`/diff/${this.documentTitle}?rev=${this.leftPicked}&oldrev=${this.rightPicked}`);
     }
   }
 })

@@ -28,6 +28,7 @@
     "markdown-it-sup": "^1.0.0",
     "nuxt": "^2.15.8",
     "nuxt-typed-vuex": "^0.3.1",
+    "text-diff": "^1.0.1",
     "vue": "^2.7.10",
     "vue-server-renderer": "^2.7.10",
     "vue-template-compiler": "^2.7.10"
